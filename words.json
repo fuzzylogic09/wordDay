@@ -300,7 +300,6 @@
     {"id": 298, "word": "Hit the sack", "translation": "Aller se coucher", "phonetic": "/hɪt ðə sæk/", "definition": "Aller au lit (expression idiomatique)", "example": "I'm exhausted — time to hit the sack.", "category": "verbe", "occurrences": 0},
     {"id": 299, "word": "Break the ice", "translation": "Briser la glace", "phonetic": "/breɪk ðə aɪs/", "definition": "Initier la conversation dans une situation gênante", "example": "He told a joke to break the ice.", "category": "verbe", "occurrences": 0},
     {"id": 300, "word": "Cost an arm and a leg", "translation": "Coûter les yeux de la tête", "phonetic": "/kɒst ən ɑːm ənd ə leɡ/", "definition": "Être extrêmement cher", "example": "That restaurant costs an arm and a leg.", "category": "verbe", "occurrences": 0},
-    
     {"id": 301, "word": "How's it going?", "translation": "Comment ça va ?", "phonetic": "/haʊz ɪt ˈɡəʊ.ɪŋ/", "definition": "Formule de salutation décontractée", "example": "Hey Mike, how's it going?", "category": "phrase", "occurrences": 0},
     {"id": 302, "word": "I'm starving!", "translation": "Je meurs de faim !", "phonetic": "/aɪm ˈstɑː.vɪŋ/", "definition": "Exprimer une grande faim de façon hyperbolique", "example": "Can we eat soon? I'm starving!", "category": "phrase", "occurrences": 0},
     {"id": 303, "word": "No worries.", "translation": "Pas de souci.", "phonetic": "/nəʊ ˈwʌr.iz/", "definition": "Dire que ce n'est pas un problème, être accommodant", "example": "Sorry I'm late! — No worries at all.", "category": "phrase", "occurrences": 0},
@@ -351,6 +350,5 @@
     {"id": 348, "word": "You had me worried.", "translation": "Tu m'as fait peur.", "phonetic": "/jʊ hæd miː ˈwʌr.id/", "definition": "Dire qu'on s'était inquiété pour quelqu'un", "example": "You didn't answer your phone all day — you had me worried!", "category": "phrase", "occurrences": 0},
     {"id": 349, "word": "This is taking forever.", "translation": "Ça prend une éternité.", "phonetic": "/ðɪs ɪz ˈteɪ.kɪŋ fəˈrev.ər/", "definition": "Exprimer son impatience face à une attente très longue", "example": "The queue is not moving — this is taking forever.", "category": "phrase", "occurrences": 0},
     {"id": 350, "word": "I'll sleep on it.", "translation": "Je vais y réfléchir.", "phonetic": "/aɪl sliːp ɒn ɪt/", "definition": "Prendre du recul et décider après une nuit de réflexion", "example": "It's a big decision — I'll sleep on it and tell you tomorrow.", "category": "phrase", "occurrences": 0}
-
   ]
 }
