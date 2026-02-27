@@ -451,7 +451,10 @@ function initVoices() {
 }
 function getVoice() { return availableVoices.find(v=>v.voiceURI===voiceSettings.voiceURI)||availableVoices[0]||null; }
 function toggleVoicePanel() { document.getElementById('voicePanel').classList.toggle('open'); }
-function testVoice() { speakCancelFirst('This is how the voice sounds. Pretty good!'); }
+function testVoice() {
+  window.speechSynthesis.cancel();
+  setTimeout(() => utterPromise('This is how the voice sounds. Pretty good!', 'en-US'), 50);
+}
 
 // ====================================================
 // SPEECH PRIMITIVES
@@ -479,34 +482,61 @@ function utterPromise(text, lang) {
 }
 
 // Cancel everything and speak once (for single clicks)
+// setTimeout(50ms) is critical on Android Chrome: cancel() needs one event
+// loop tick before speak() or the new utterance is silently dropped.
 function speakCancelFirst(text) {
   window.speechSynthesis.cancel();
-  return utterPromise(text, 'en-US');
+  return new Promise(resolve => {
+    setTimeout(() => { utterPromise(text, 'en-US').then(resolve); }, 50);
+  });
 }
 function speak(text) { speakCancelFirst(text); }
 
 // ====================================================
-// PER-CARD REPEAT
+// PER-CARD REPEAT — séquence : 1×EN → 1×FR → N×EN
 // ====================================================
 async function repeatWord(wordObj) {
   const id = wordObj.id;
   // Toggle off if already running
-  if (cardRepeatMap[id]) { cardRepeatMap[id] = false; window.speechSynthesis.cancel(); setRepeatBtn(id,false); setCardPlaying(id,false); return; }
+  if (cardRepeatMap[id]) {
+    cardRepeatMap[id] = false;
+    window.speechSynthesis.cancel();
+    setRepeatBtn(id, false);
+    setCardPlaying(id, false);
+    return;
+  }
   // Stop other modes
   stopGlobalPlay(); stopGlossaryRadio();
   Object.keys(cardRepeatMap).forEach(k => { cardRepeatMap[k]=false; setRepeatBtn(k,false); setCardPlaying(k,false); });
+
   cardRepeatMap[id] = true;
   setRepeatBtn(id, true);
   setCardPlaying(id, true);
   window.speechSynthesis.cancel();
+  await wait(80); // Android needs a gap after cancel
 
+  // 1× EN
+  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
+  setRepeatBtn(id, true, 0); // show "EN"
+  await utterPromise(wordObj.word, 'en-US');
+  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
+  await wait(voiceSettings.pause * 600);
+
+  // 1× FR
+  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
+  await utterPromise(wordObj.translation, 'fr-FR');
+  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
+  await wait(voiceSettings.pause * 1000);
+
+  // N× EN
   for (let i = 0; i < voiceSettings.repeats; i++) {
     if (!cardRepeatMap[id]) break;
-    setRepeatBtn(id, true, i+1);
-    await utterPromise(wordObj.word);
+    setRepeatBtn(id, true, i + 1);
+    await utterPromise(wordObj.word, 'en-US');
     if (!cardRepeatMap[id]) break;
-    if (i < voiceSettings.repeats-1) await wait(voiceSettings.pause*1000);
+    if (i < voiceSettings.repeats - 1) await wait(voiceSettings.pause * 1000);
   }
+
   cardRepeatMap[id] = false;
   setRepeatBtn(id, false);
   setCardPlaying(id, false);
@@ -525,7 +555,7 @@ function setCardPlaying(id, on) {
 }
 
 // ====================================================
-// GLOBAL PLAY (all daily words, repeats each)
+// GLOBAL PLAY — séquence par mot : 1×EN → 1×FR → N×EN
 // ====================================================
 async function startGlobalPlay() {
   if (globalPlayActive) { stopGlobalPlay(); return; }
@@ -541,8 +571,11 @@ async function startGlobalPlay() {
   btn.innerHTML = '⏹ Arrêter';
   showPlayBar(true);
   window.speechSynthesis.cancel();
+  await wait(80); // Android needs a short gap after cancel
 
-  const total = words.length * voiceSettings.repeats;
+  // Total steps per word: 1(EN) + 1(FR) + N(EN) = N+2
+  const stepsPerWord = voiceSettings.repeats + 2;
+  const total = words.length * stepsPerWord;
   let done = 0;
 
   outer: for (let wi = 0; wi < words.length; wi++) {
@@ -550,16 +583,32 @@ async function startGlobalPlay() {
     const w = words[wi];
     setCardPlaying(w.id, true);
 
+    // Step 1 — 1× anglais
+    done++;
+    setPlayBar(w.word, `Mot ${wi+1}/${words.length} — anglais`, done/total*100);
+    await utterPromise(w.word, 'en-US');
+    if (globalPlayAbort) break outer;
+    await wait(voiceSettings.pause * 600);
+
+    // Step 2 — 1× français
+    done++;
+    setPlayBar(w.word, `Mot ${wi+1}/${words.length} — traduction française`, done/total*100);
+    await utterPromise(w.translation, 'fr-FR');
+    if (globalPlayAbort) break outer;
+    await wait(voiceSettings.pause * 1000);
+
+    // Steps 3…N+2 — N× anglais
     for (let ri = 0; ri < voiceSettings.repeats; ri++) {
       if (globalPlayAbort) break outer;
       done++;
-      setPlayBar(w.word, `${wi+1}/${words.length} — répétition ${ri+1}/${voiceSettings.repeats}`, done/total*100);
-      await utterPromise(w.word);
+      setPlayBar(w.word, `Mot ${wi+1}/${words.length} — répétition ${ri+1}/${voiceSettings.repeats}`, done/total*100);
+      await utterPromise(w.word, 'en-US');
       if (globalPlayAbort) break outer;
-      if (ri < voiceSettings.repeats-1) await wait(voiceSettings.pause*1000);
+      if (ri < voiceSettings.repeats - 1) await wait(voiceSettings.pause * 1000);
     }
+
     setCardPlaying(w.id, false);
-    if (wi < words.length-1) await wait(voiceSettings.pause*1000*1.4);
+    if (wi < words.length - 1) await wait(voiceSettings.pause * 1000 * 1.5);
   }
 
   words.forEach(w => setCardPlaying(w.id, false));
