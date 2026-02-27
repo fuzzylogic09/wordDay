@@ -391,7 +391,9 @@ async function loadWords() {
     const res = await fetch('words.json');
     const data = await res.json();
     wordsData = data.words;
+    // Normalize all IDs to numbers (safety against JSON edited by hand with "id": "101")
     wordsData.forEach(w => {
+      w.id = parseInt(w.id, 10);
       if (state.occurrences[w.id] !== undefined) w.occurrences = state.occurrences[w.id];
     });
   } catch(e) { console.error('loadWords failed', e); }
@@ -497,6 +499,7 @@ function speak(text) { speakCancelFirst(text); }
 // PER-CARD REPEAT — séquence : 1×EN → 1×FR → N×EN
 // ====================================================
 async function repeatWord(wordObj) {
+  if (!wordObj) { console.error('repeatWord: mot introuvable'); showToast('⚠ Mot introuvable'); return; }
   const id = wordObj.id;
   // Toggle off if already running
   if (cardRepeatMap[id]) {
@@ -740,7 +743,7 @@ function renderDaily() {
       <div class="card-translation">${w.translation}</div>
       <div class="card-definition">${w.definition}</div>
       <div class="card-example"><strong>Ex.</strong> ${w.example}</div>
-      <button class="card-repeat-btn" id="rb-${w.id}" onclick="repeatWord(wordsData.find(x=>x.id===${w.id}))">↺ ×${voiceSettings.repeats}</button>
+      <button class="card-repeat-btn" id="rb-${w.id}" onclick="repeatWord(wordsData.find(x=>x.id==${w.id}))">↺ ×${voiceSettings.repeats}</button>
     </div>
   `).join('');
 }
