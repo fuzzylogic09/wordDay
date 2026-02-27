@@ -1,8 +1,9 @@
 {
-  "name": "WordDay — 2 mots par jour",
+  "name": "WordDay — 5 mots par jour",
   "short_name": "WordDay",
-  "description": "Apprenez 2 mots d'anglais par jour",
-  "start_url": "/index.html",
+  "description": "Apprenez 5 mots et phrases d'anglais par jour",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0f1117",
   "theme_color": "#0f1117",
