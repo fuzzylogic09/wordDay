@@ -845,7 +845,14 @@ function speak(text) {
   }
   speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-US';
+  utter.rate = 0.85;   // vitesse (0.5 = lent, 1.5 = rapide)
+  utter.pitch = 1;     // tonalité (0 = grave, 2 = aigu)
+  utter.volume = 1;    // volume
+  // Choisir une voix :
+  const voices = speechSynthesis.getVoices();
+  utter.voice = voices.find(v => v.lang === 'en-US'); // accent britannique
+    
+  //utter.lang = 'en-US';
   utter.rate = 0.85;
   utter.pitch = 1;
   speechSynthesis.speak(utter);
