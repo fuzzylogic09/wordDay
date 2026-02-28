@@ -1,189 +1,235 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f1117" />
-  <meta name="description" content="Apprenez 5 mots et phrases d'anglais par jour" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="WordDay" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0f1117"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="WordDay"/>
   <title>WordDay — 5 mots par jour</title>
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="manifest.json"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f1117; --surface: #181c27; --surface2: #1f2535;
-      --border: #2a3045; --accent: #e8c97a; --accent2: #7ac4e8;
-      --text: #e8eaf0; --muted: #8a90a2; --danger: #e87a7a; --green: #7ae8a0;
+      --bg:#0f1117; --surface:#181c27; --surface2:#1f2535;
+      --border:#2a3045; --accent:#e8c97a; --accent2:#7ac4e8;
+      --text:#e8eaf0; --muted:#8a90a2; --danger:#e87a7a; --green:#7ae8a0;
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html,body { height:100%; background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:300; overflow-x:hidden; }
-    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; opacity:0.5; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
 
-    header { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.25rem; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(15,17,23,0.95); backdrop-filter:blur(12px); z-index:100; gap:0.5rem; }
-    .logo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--accent); letter-spacing:-0.02em; flex-shrink:0; }
-    .logo span { color:var(--text); font-style:italic; }
-    .header-right { display:flex; align-items:center; gap:0.5rem; flex-shrink:0; }
-    .date-badge { font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+    /* ── HEADER ── */
+    header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(15,17,23,.95);backdrop-filter:blur(12px);z-index:100;gap:.5rem}
+    .logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--accent);letter-spacing:-.02em;flex-shrink:0}
+    .logo span{color:var(--text);font-style:italic}
+    .header-right{display:flex;align-items:center;gap:.5rem;flex-shrink:0}
+    .date-badge{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 
-    nav { display:flex; border-bottom:1px solid var(--border); }
-    .tab { padding:0.85rem 0.5rem; flex:1; text-align:center; cursor:pointer; font-size:0.75rem; color:var(--muted); border:none; border-bottom:2px solid transparent; transition:all 0.2s; background:none; font-family:'DM Sans',sans-serif; white-space:nowrap; }
-    .tab.active { color:var(--accent); border-bottom-color:var(--accent); background:rgba(232,201,122,0.05); }
-    .tab:hover:not(.active) { color:var(--text); }
+    /* ── NAV ── */
+    nav{display:flex;border-bottom:1px solid var(--border)}
+    .tab{padding:.85rem .5rem;flex:1;text-align:center;cursor:pointer;font-size:.75rem;color:var(--muted);border:none;border-bottom:2px solid transparent;transition:all .2s;background:none;font-family:'DM Sans',sans-serif;white-space:nowrap}
+    .tab.active{color:var(--accent);border-bottom-color:var(--accent);background:rgba(232,201,122,.05)}
+    .tab:hover:not(.active){color:var(--text)}
 
-    .voice-panel { display:none; background:var(--surface); border-bottom:1px solid var(--border); padding:1rem 1.25rem; }
-    .voice-panel.open { display:block; }
-    .voice-panel-inner { max-width:800px; margin:0 auto; }
-    .voice-panel p { font-size:0.72rem; color:var(--muted); margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.1em; }
-    .voice-controls { display:flex; flex-wrap:wrap; gap:1rem; align-items:flex-end; }
-    .voice-ctrl label { font-size:0.7rem; color:var(--muted); display:block; margin-bottom:0.3rem; }
-    input[type=range] { accent-color:var(--accent); }
+    /* ── VOICE PANEL ── */
+    .voice-panel{display:none;background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.25rem}
+    .voice-panel.open{display:block}
+    .voice-panel p{font-size:.72rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.1em}
+    .voice-controls{display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end}
+    .voice-ctrl label{font-size:.7rem;color:var(--muted);display:block;margin-bottom:.3rem}
+    input[type=range]{accent-color:var(--accent)}
 
-    main { max-width:800px; margin:0 auto; padding:1.25rem; }
-    .section { display:none; }
-    .section.active { display:block; }
+    /* ── LAYOUT ── */
+    main{max-width:800px;margin:0 auto;padding:1.25rem}
+    .section{display:none}
+    .section.active{display:block}
+    @keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 
-    .daily-header { text-align:center; padding:1.25rem 0 1.5rem; }
-    .daily-header h1 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:400; letter-spacing:-0.03em; line-height:1.2; margin-bottom:0.4rem; }
-    .daily-header h1 em { font-style:italic; color:var(--accent); }
-    .daily-header p { color:var(--muted); font-size:0.82rem; }
+    /* ── BUTTONS ── */
+    .btn{padding:.62rem 1.1rem;border-radius:50px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem;line-height:1}
+    .btn:hover{border-color:var(--accent);color:var(--accent)}
+    .btn-primary{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:500}
+    .btn-primary:hover{background:#f5dfa0;color:var(--bg)}
+    .btn-danger{background:rgba(232,122,122,.12);color:var(--danger);border-color:var(--danger)}
+    .btn-danger:hover{background:rgba(232,122,122,.25)}
+    .btn-green{background:rgba(122,232,160,.1);color:var(--green);border-color:var(--green)}
+    .btn-green:hover{background:rgba(122,232,160,.22)}
+    .btn-blue{background:rgba(122,196,232,.1);color:var(--accent2);border-color:var(--accent2)}
+    .btn-blue:hover{background:rgba(122,196,232,.22)}
 
-    .cards-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem; }
-    .word-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.25rem; position:relative; overflow:hidden; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; animation:slideUp 0.45s ease both; }
-    .word-card.phrase-card { border-left:3px solid var(--accent2); }
-    .word-card.is-playing { border-color:var(--accent); box-shadow:0 0 0 2px rgba(232,201,122,0.15); }
-    .word-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
-    .word-card.phrase-card::before { background:linear-gradient(90deg,var(--accent2),#a78fe8); }
-    .word-card:hover { transform:translateY(-2px); border-color:var(--accent); }
-    @keyframes slideUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    /* ── DAILY HEADER ── */
+    .daily-header{text-align:center;padding:1.25rem 0 1.5rem}
+    .daily-header h1{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;letter-spacing:-.03em;line-height:1.2;margin-bottom:.4rem}
+    .daily-header h1 em{font-style:italic;color:var(--accent)}
+    .daily-header p{color:var(--muted);font-size:.82rem}
 
-    .card-seen { position:absolute; top:0.75rem; right:0.75rem; font-size:0.6rem; color:var(--muted); }
-    .card-type-badge { display:inline-flex; align-items:center; gap:0.3rem; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); margin-bottom:0.6rem; }
-    .card-type-badge .dot { width:5px; height:5px; border-radius:50%; background:var(--accent); }
-    .phrase-card .card-type-badge .dot { background:var(--accent2); }
-    .card-word { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--accent); margin-bottom:0.2rem; cursor:pointer; transition:opacity 0.2s; display:flex; align-items:flex-start; gap:0.4rem; line-height:1.3; }
-    .phrase-card .card-word { font-size:1.1rem; color:var(--accent2); }
-    .card-word:hover { opacity:0.82; }
-    .play-icon { width:24px; height:24px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.1s; margin-top:0.1rem; }
-    .play-icon:active { transform:scale(0.88); }
-    .play-icon svg { fill:var(--bg); }
-    .phrase-card .play-icon { background:var(--accent2); }
-    .card-repeat-btn { display:inline-flex; align-items:center; gap:0.3rem; margin-top:0.6rem; padding:0.28rem 0.6rem; background:var(--surface2); border:1px solid var(--border); border-radius:20px; cursor:pointer; font-size:0.68rem; color:var(--muted); transition:all 0.2s; font-family:'DM Sans',sans-serif; }
-    .card-repeat-btn:hover { border-color:var(--accent); color:var(--accent); }
-    .card-repeat-btn.active { background:rgba(232,201,122,0.12); border-color:var(--accent); color:var(--accent); }
-    .card-phonetic { font-size:0.8rem; color:var(--accent2); margin-bottom:0.5rem; font-style:italic; }
-    .card-category { display:inline-block; font-size:0.6rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--bg); background:var(--muted); border-radius:20px; padding:0.15rem 0.5rem; margin-bottom:0.55rem; }
-    .card-translation { font-size:1rem; font-weight:500; color:var(--text); margin-bottom:0.4rem; }
-    .card-definition { font-size:0.76rem; color:var(--muted); line-height:1.5; margin-bottom:0.55rem; }
-    .card-example { font-size:0.76rem; color:var(--muted); font-style:italic; border-left:2px solid var(--border); padding-left:0.6rem; line-height:1.5; }
-    .card-example strong { color:var(--text); font-style:normal; }
+    /* ── CARDS ── */
+    .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+    .word-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;position:relative;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;animation:slideUp .45s ease both}
+    .word-card.phrase-card{border-left:3px solid var(--accent2)}
+    .word-card.is-playing{border-color:var(--accent);box-shadow:0 0 0 2px rgba(232,201,122,.15)}
+    .word-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+    .word-card.phrase-card::before{background:linear-gradient(90deg,var(--accent2),#a78fe8)}
+    .word-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+    .card-seen{position:absolute;top:.75rem;right:.75rem;font-size:.6rem;color:var(--muted)}
+    .card-type-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.6rem}
+    .card-type-badge .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    .phrase-card .card-type-badge .dot{background:var(--accent2)}
+    .card-word{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--accent);margin-bottom:.2rem;cursor:pointer;transition:opacity .2s;display:flex;align-items:flex-start;gap:.4rem;line-height:1.3}
+    .card-word span{pointer-events:none}
+    .phrase-card .card-word{font-size:1.1rem;color:var(--accent2)}
+    .card-word:hover{opacity:.82}
+    .play-icon{width:24px;height:24px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .1s;margin-top:.1rem;pointer-events:none}
+    .play-icon svg{fill:var(--bg);pointer-events:none}
+    .phrase-card .play-icon{background:var(--accent2)}
+    .card-phonetic{font-size:.8rem;color:var(--accent2);margin-bottom:.5rem;font-style:italic}
+    .card-category{display:inline-block;font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--bg);background:var(--muted);border-radius:20px;padding:.15rem .5rem;margin-bottom:.55rem}
+    .card-translation{font-size:1rem;font-weight:500;color:var(--text);margin-bottom:.4rem}
+    .card-definition{font-size:.76rem;color:var(--muted);line-height:1.5;margin-bottom:.55rem}
+    .card-example{font-size:.76rem;color:var(--muted);font-style:italic;border-left:2px solid var(--border);padding-left:.6rem;line-height:1.5}
+    .card-example strong{color:var(--text);font-style:normal}
+    .card-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.7rem}
+    .card-btn{display:inline-flex;align-items:center;gap:.25rem;padding:.28rem .6rem;background:var(--surface2);border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:.68rem;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;line-height:1}
+    .card-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .card-btn.active{background:rgba(232,201,122,.12);border-color:var(--accent);color:var(--accent)}
+    .card-btn.blue:hover{border-color:var(--accent2);color:var(--accent2)}
 
-    .controls { display:flex; gap:0.65rem; justify-content:center; flex-wrap:wrap; margin-top:0.25rem; padding-bottom:1rem; }
-    .btn { padding:0.62rem 1.1rem; border-radius:50px; border:1px solid var(--border); background:var(--surface); color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.8rem; transition:all 0.2s; display:inline-flex; align-items:center; gap:0.4rem; }
-    .btn:hover { border-color:var(--accent); color:var(--accent); }
-    .btn-primary { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:500; }
-    .btn-primary:hover { background:#f5dfa0; color:var(--bg); }
-    .btn-danger { background:rgba(232,122,122,0.12); color:var(--danger); border-color:var(--danger); }
-    .btn-danger:hover { background:rgba(232,122,122,0.22); }
-    .btn-green { background:rgba(122,232,160,0.1); color:var(--green); border-color:var(--green); }
-    .btn-green:hover { background:rgba(122,232,160,0.22); }
+    /* ── CONTROLS ── */
+    .controls{display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;margin-top:.25rem;padding-bottom:1rem}
 
-    /* PLAY BAR */
-    .play-bar { position:fixed; bottom:0; left:0; right:0; background:rgba(24,28,39,0.97); backdrop-filter:blur(16px); border-top:1px solid var(--border); padding:0.75rem 1.25rem; z-index:200; display:none; }
-    .play-bar.visible { display:block; }
-    .play-bar-inner { max-width:800px; margin:0 auto; display:flex; align-items:center; gap:0.75rem; }
-    .play-bar-info { flex:1; min-width:0; }
-    .play-bar-word { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .play-bar-sub { font-size:0.68rem; color:var(--muted); margin-top:0.1rem; }
-    .play-bar-progress { height:2px; background:var(--border); border-radius:2px; margin-top:0.4rem; overflow:hidden; }
-    .play-bar-progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width 0.3s linear; }
-    .stop-btn { flex-shrink:0; background:var(--danger); border-color:var(--danger); color:white; font-weight:500; }
-    .stop-btn:hover { background:#ff9090; color:white; }
+    /* ── PLAY BAR ── */
+    .play-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(24,28,39,.97);backdrop-filter:blur(16px);border-top:1px solid var(--border);padding:.75rem 1.25rem;z-index:200;display:none}
+    .play-bar.visible{display:block}
+    .play-bar-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:.75rem}
+    .play-bar-info{flex:1;min-width:0}
+    .play-bar-word{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .play-bar-sub{font-size:.68rem;color:var(--muted);margin-top:.1rem}
+    .play-bar-progress{height:2px;background:var(--border);border-radius:2px;margin-top:.4rem;overflow:hidden}
+    .play-bar-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .3s linear}
+    .stop-btn{flex-shrink:0;background:var(--danger);border-color:var(--danger);color:#fff;font-weight:500}
+    .stop-btn:hover{background:#ff9090;color:#fff}
 
-    .quiz-container { max-width:500px; margin:0 auto; padding-top:1rem; }
-    .quiz-header { text-align:center; margin-bottom:1.5rem; }
-    .quiz-header h2 { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:400; margin-bottom:0.4rem; }
-    .quiz-progress { width:100%; height:4px; background:var(--border); border-radius:4px; margin:0.65rem 0; overflow:hidden; }
-    .quiz-progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:4px; transition:width 0.4s ease; }
-    .quiz-question { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.75rem; text-align:center; margin-bottom:1.1rem; animation:fadeIn 0.3s ease; }
-    @keyframes fadeIn { from{opacity:0;transform:scale(0.97)} to{opacity:1;transform:scale(1)} }
-    .quiz-prompt { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); margin-bottom:0.5rem; }
-    .quiz-word { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--accent); cursor:pointer; line-height:1.2; }
-    .quiz-phonetic { font-size:0.82rem; color:var(--accent2); font-style:italic; margin-top:0.25rem; }
-    .quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; }
-    .quiz-option { padding:0.85rem; background:var(--surface); border:1px solid var(--border); border-radius:10px; cursor:pointer; text-align:center; font-size:0.82rem; transition:all 0.2s; font-family:'DM Sans',sans-serif; color:var(--text); line-height:1.3; }
-    .quiz-option:hover:not(.disabled) { border-color:var(--accent); color:var(--accent); }
-    .quiz-option.correct { background:rgba(122,196,232,0.15); border-color:var(--accent2); color:var(--accent2); }
-    .quiz-option.wrong { background:rgba(232,122,122,0.15); border-color:var(--danger); color:var(--danger); }
-    .quiz-option.disabled { cursor:not-allowed; }
-    .quiz-result { text-align:center; padding:2.5rem 1rem; animation:fadeIn 0.4s ease; }
-    .quiz-result .score { font-family:'Playfair Display',serif; font-size:5rem; color:var(--accent); line-height:1; margin-bottom:0.4rem; }
-    .quiz-result p { color:var(--muted); margin-bottom:0.5rem; }
+    /* ── QUIZ ── */
+    .quiz-container{max-width:500px;margin:0 auto;padding-top:1rem}
+    .quiz-header{text-align:center;margin-bottom:1.5rem}
+    .quiz-header h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:400;margin-bottom:.4rem}
+    .quiz-progress{width:100%;height:4px;background:var(--border);border-radius:4px;margin:.65rem 0;overflow:hidden}
+    .quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease}
+    .quiz-question{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;text-align:center;margin-bottom:1.1rem;animation:fadeIn .3s ease}
+    .quiz-prompt{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.5rem}
+    .quiz-word{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent);cursor:pointer;line-height:1.2}
+    .quiz-phonetic{font-size:.82rem;color:var(--accent2);font-style:italic;margin-top:.25rem}
+    .quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+    .quiz-option{padding:.85rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:center;font-size:.82rem;transition:all .2s;font-family:'DM Sans',sans-serif;color:var(--text);line-height:1.3}
+    .quiz-option:hover:not(.disabled){border-color:var(--accent);color:var(--accent)}
+    .quiz-option.correct{background:rgba(122,196,232,.15);border-color:var(--accent2);color:var(--accent2)}
+    .quiz-option.wrong{background:rgba(232,122,122,.15);border-color:var(--danger);color:var(--danger)}
+    .quiz-option.disabled{cursor:not-allowed}
+    .quiz-result{text-align:center;padding:2.5rem 1rem;animation:fadeIn .4s ease}
+    .quiz-result .score{font-family:'Playfair Display',serif;font-size:5rem;color:var(--accent);line-height:1;margin-bottom:.4rem}
+    .quiz-result p{color:var(--muted);margin-bottom:.5rem}
 
-    .glossary-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem; margin-bottom:1.1rem; }
-    .glossary-header h2 { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:400; }
-    .glossary-radio-bar { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:0.9rem 1rem; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
-    .radio-info { flex:1; min-width:150px; }
-    .radio-word { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--accent); }
-    .radio-sub { font-size:0.7rem; color:var(--muted); margin-top:0.15rem; }
-    .radio-progress-wrap { height:2px; background:var(--border); border-radius:2px; margin-top:0.4rem; overflow:hidden; }
-    .radio-progress-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.2s; }
-    .glossary-controls { display:flex; gap:0.6rem; margin-bottom:1rem; flex-wrap:wrap; align-items:center; }
-    .search-box { flex:1; min-width:140px; padding:0.55rem 0.9rem; background:var(--surface); border:1px solid var(--border); border-radius:50px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.82rem; outline:none; transition:border-color 0.2s; }
-    .search-box:focus { border-color:var(--accent); }
-    .search-box::placeholder { color:var(--muted); }
-    .filter-select { padding:0.55rem 0.8rem; background:var(--surface); border:1px solid var(--border); border-radius:50px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.78rem; outline:none; cursor:pointer; }
-    .glossary-list { display:flex; flex-direction:column; gap:0.35rem; padding-bottom:5rem; }
-    .glossary-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:0.75rem 0.9rem; display:flex; align-items:center; gap:0.65rem; transition:border-color 0.2s; animation:slideUp 0.3s ease both; overflow:hidden; }
-    .glossary-item.is-playing { border-color:var(--accent); background:rgba(232,201,122,0.04); }
-    .glossary-word { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--accent); width:140px; min-width:0; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:0.3rem; flex-shrink:0; cursor:pointer; white-space:nowrap; }
-    .glossary-word.phrase { color:var(--accent2); font-size:0.85rem; width:160px; white-space:normal; line-height:1.3; }
-    .mini-play { width:17px; height:17px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:0.65; transition:opacity 0.2s; }
-    .glossary-item:hover .mini-play { opacity:1; }
-    .mini-play svg { fill:var(--bg); }
-    .glossary-word.phrase .mini-play { background:var(--accent2); }
-    .glossary-phonetic { font-size:0.68rem; color:var(--accent2); font-style:italic; width:100px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .glossary-translation { font-size:0.82rem; color:var(--text); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .glossary-badge { font-size:0.58rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); background:var(--surface2); border-radius:20px; padding:0.12rem 0.42rem; flex-shrink:0; }
-    .occurrences-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); opacity:0.22; flex-shrink:0; }
-    .occurrences-dot.seen { opacity:1; }
+    /* ── GLOSSARY ── */
+    .glossary-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1.1rem}
+    .glossary-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400}
+    .glossary-radio-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+    .radio-info{flex:1;min-width:150px}
+    .radio-word{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--accent)}
+    .radio-sub{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+    .radio-progress-wrap{height:2px;background:var(--border);border-radius:2px;margin-top:.4rem;overflow:hidden}
+    .radio-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .2s}
+    .glossary-controls{display:flex;gap:.6rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+    .search-box{flex:1;min-width:140px;padding:.55rem .9rem;background:var(--surface);border:1px solid var(--border);border-radius:50px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s}
+    .search-box:focus{border-color:var(--accent)}
+    .search-box::placeholder{color:var(--muted)}
+    .filter-select{padding:.55rem .8rem;background:var(--surface);border:1px solid var(--border);border-radius:50px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.78rem;outline:none;cursor:pointer}
+    .glossary-list{display:flex;flex-direction:column;gap:.35rem;padding-bottom:5rem}
+    .glossary-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.75rem .9rem;display:flex;align-items:center;gap:.65rem;transition:border-color .2s;animation:slideUp .3s ease both;overflow:hidden;cursor:pointer}
+    .glossary-item:hover{border-color:var(--accent)}
+    .glossary-item.is-playing{border-color:var(--accent);background:rgba(232,201,122,.04)}
+    .glossary-word-col{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--accent);width:140px;min-width:0;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:.3rem;flex-shrink:0;white-space:nowrap;cursor:pointer}
+    .glossary-word-col span{pointer-events:none}
+    .glossary-word-col.phrase{color:var(--accent2);font-size:.85rem;width:160px;white-space:normal;line-height:1.3}
+    .mini-play{width:17px;height:17px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:.65;transition:opacity .2s;pointer-events:none}
+    .glossary-item:hover .mini-play{opacity:1}
+    .mini-play svg{fill:var(--bg);pointer-events:none}
+    .glossary-word-col.phrase .mini-play{background:var(--accent2)}
+    .glossary-phonetic{font-size:.68rem;color:var(--accent2);font-style:italic;width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .glossary-translation{font-size:.82rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .glossary-badge{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--surface2);border-radius:20px;padding:.12rem .42rem;flex-shrink:0}
+    .occ-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.22;flex-shrink:0}
+    .occ-dot.seen{opacity:1}
 
-    .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0.65rem; margin-bottom:1rem; }
-    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.1rem; text-align:center; animation:slideUp 0.4s ease both; }
-    .stat-number { font-family:'Playfair Display',serif; font-size:2.1rem; color:var(--accent); line-height:1; margin-bottom:0.2rem; }
-    .stat-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
-    .streak-bar { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.1rem; margin-bottom:0.65rem; }
-    .streak-bar h3 { font-size:0.76rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.8rem; }
-    .streak-days { display:flex; gap:0.3rem; flex-wrap:wrap; }
-    .streak-day { width:29px; height:29px; border-radius:6px; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:0.58rem; color:var(--muted); flex-direction:column; gap:1px; }
-    .streak-day.done { background:rgba(232,201,122,0.18); border-color:var(--accent); color:var(--accent); }
+    /* ── STATS ── */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin-bottom:1rem}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem;text-align:center;animation:slideUp .4s ease both}
+    .stat-number{font-family:'Playfair Display',serif;font-size:2.1rem;color:var(--accent);line-height:1;margin-bottom:.2rem}
+    .stat-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+    .streak-bar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem;margin-bottom:.65rem}
+    .streak-bar h3{font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+    .streak-days{display:flex;gap:.3rem;flex-wrap:wrap}
+    .streak-day{width:29px;height:29px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.58rem;color:var(--muted);flex-direction:column;gap:1px}
+    .streak-day.done{background:rgba(232,201,122,.18);border-color:var(--accent);color:var(--accent)}
 
-    .toast { position:fixed; bottom:5.5rem; left:50%; transform:translateX(-50%) translateY(100px); background:var(--surface2); border:1px solid var(--border); border-radius:50px; padding:0.6rem 1.2rem; font-size:0.8rem; color:var(--text); z-index:1000; transition:transform 0.3s ease; white-space:nowrap; }
-    .toast.show { transform:translateX(-50%) translateY(0); }
-    .loading { text-align:center; padding:3rem; color:var(--muted); }
-    .spinner { width:26px; height:26px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 0.65rem; }
-    @keyframes spin { to{transform:rotate(360deg)} }
-    .empty-state { text-align:center; padding:2.5rem; color:var(--muted); }
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:5.5rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--surface2);border:1px solid var(--border);border-radius:50px;padding:.6rem 1.2rem;font-size:.8rem;color:var(--text);z-index:1000;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+    .toast.show{transform:translateX(-50%) translateY(0)}
 
-    @media (max-width:600px) {
-      .cards-grid { grid-template-columns:1fr; }
-      main { padding:0.9rem; }
-      .daily-header h1 { font-size:1.65rem; }
-      .glossary-phonetic { display:none; }
-      .glossary-word { width:110px; }
-      .glossary-word.phrase { width:130px; }
-      .glossary-translation { font-size:0.78rem; }
-      .controls { flex-direction:column; align-items:stretch; }
-      .controls .btn { justify-content:center; }
-      header { padding:0.75rem 1rem; }
-      .stats-grid { grid-template-columns:1fr 1fr; }
-      .quiz-options { grid-template-columns:1fr; }
-      .voice-controls { gap:0.75rem; }
-      .glossary-radio-bar { flex-direction:column; align-items:flex-start; }
+    /* ── MODAL ── */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);padding:1rem;overflow-y:auto}
+    .modal-overlay.open{display:block}
+    .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;max-width:500px;margin:2rem auto;padding:1.75rem;position:relative;animation:slideUp .3s ease}
+    .modal-close{position:absolute;top:1rem;right:1rem;background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1}
+    .modal-close:hover{border-color:var(--danger);color:var(--danger)}
+    .modal-word{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--accent);margin-bottom:.2rem;cursor:pointer;display:flex;align-items:center;gap:.4rem}
+    .modal-word:hover{opacity:.85}
+    .modal-phonetic{font-size:.95rem;color:var(--accent2);font-style:italic;margin-bottom:.85rem}
+    .modal-section{margin-bottom:.85rem}
+    .modal-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:.2rem}
+    .modal-value{font-size:.95rem;color:var(--text)}
+    .modal-example{font-size:.85rem;color:var(--muted);font-style:italic;border-left:2px solid var(--border);padding-left:.65rem;line-height:1.5}
+
+    /* ── PRONUNCIATION ── */
+    .mic-btn{width:72px;height:72px;border-radius:50%;border:2px solid var(--accent2);background:rgba(122,196,232,.1);color:var(--accent2);font-size:2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:1.25rem auto;transition:all .2s}
+    .mic-btn.listening{background:rgba(232,122,122,.15);border-color:var(--danger);color:var(--danger);animation:pulse 1s infinite}
+    .ph-good{color:var(--green);background:rgba(122,232,160,.15);border-radius:3px;padding:0 2px}
+    .ph-ok{color:var(--accent);background:rgba(232,201,122,.12);border-radius:3px;padding:0 2px}
+    .ph-bad{color:var(--danger);background:rgba(232,122,122,.12);border-radius:3px;padding:0 2px}
+    .pronunc-score{font-family:'Playfair Display',serif;font-size:4.5rem;line-height:1;margin:.5rem 0}
+    .score-great{color:var(--green)}
+    .score-ok{color:var(--accent)}
+    .score-poor{color:var(--danger)}
+    .result-heard{background:var(--surface2);border-radius:10px;padding:.85rem;margin-bottom:.75rem}
+    .result-heard .rl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+    .result-heard .rv{font-size:1.05rem;color:var(--text)}
+
+    /* ── MISC ── */
+    .loading{text-align:center;padding:3rem;color:var(--muted)}
+    .spinner{width:26px;height:26px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto .65rem}
+    .empty-state{text-align:center;padding:2.5rem;color:var(--muted)}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:600px){
+      .cards-grid{grid-template-columns:1fr}
+      main{padding:.9rem}
+      .daily-header h1{font-size:1.65rem}
+      .glossary-phonetic{display:none}
+      .glossary-word-col{width:110px}
+      .glossary-word-col.phrase{width:130px}
+      .controls{flex-direction:column;align-items:stretch}
+      .controls .btn{justify-content:center}
+      header{padding:.75rem 1rem}
+      .stats-grid{grid-template-columns:1fr 1fr}
+      .quiz-options{grid-template-columns:1fr}
+      .voice-controls{gap:.75rem}
     }
   </style>
 </head>
@@ -193,36 +239,35 @@
   <div class="logo">Word<span>Day</span></div>
   <div class="header-right">
     <div class="date-badge" id="headerDate"></div>
-    <button class="btn" style="padding:0.32rem 0.6rem;font-size:0.7rem;" onclick="toggleVoicePanel()">⚙ Voix</button>
+    <button class="btn" style="padding:.32rem .6rem;font-size:.7rem" onclick="toggleVoicePanel()">⚙ Voix</button>
   </div>
 </header>
 
-<!-- VOICE SETTINGS PANEL -->
 <div class="voice-panel" id="voicePanel">
-  <div class="voice-panel-inner">
-    <p>⚙ Réglages de la voix & répétitions</p>
+  <div style="max-width:800px;margin:0 auto">
+    <p>⚙ Réglages voix &amp; répétitions</p>
     <div class="voice-controls">
       <div class="voice-ctrl">
         <label>Voix anglaise</label>
-        <select id="voiceSelect" class="filter-select" style="min-width:165px;" onchange="saveVoiceSettings()"><option>Chargement…</option></select>
+        <select id="voiceSelect" class="filter-select" style="min-width:165px" onchange="saveVoiceSettings()"><option>Chargement…</option></select>
       </div>
       <div class="voice-ctrl">
         <label>Vitesse : <strong id="rateVal">0.85</strong></label>
-        <input type="range" min="0.5" max="2" step="0.05" value="0.85" id="rateSlider" oninput="document.getElementById('rateVal').textContent=parseFloat(this.value).toFixed(2);saveVoiceSettings();" style="width:100px;">
+        <input type="range" min=".5" max="2" step=".05" value=".85" id="rateSlider" oninput="document.getElementById('rateVal').textContent=parseFloat(this.value).toFixed(2);saveVoiceSettings()" style="width:100px">
       </div>
       <div class="voice-ctrl">
         <label>Ton : <strong id="pitchVal">1.0</strong></label>
-        <input type="range" min="0.5" max="2" step="0.1" value="1.0" id="pitchSlider" oninput="document.getElementById('pitchVal').textContent=parseFloat(this.value).toFixed(1);saveVoiceSettings();" style="width:100px;">
+        <input type="range" min=".5" max="2" step=".1" value="1" id="pitchSlider" oninput="document.getElementById('pitchVal').textContent=parseFloat(this.value).toFixed(1);saveVoiceSettings()" style="width:100px">
       </div>
       <div class="voice-ctrl">
-        <label>Répétitions par mot : <strong id="repeatVal">5</strong></label>
-        <input type="range" min="1" max="10" step="1" value="5" id="repeatSlider" oninput="document.getElementById('repeatVal').textContent=this.value;saveVoiceSettings();" style="width:100px;">
+        <label>Répétitions : <strong id="repeatVal">5</strong></label>
+        <input type="range" min="1" max="10" step="1" value="5" id="repeatSlider" oninput="document.getElementById('repeatVal').textContent=this.value;saveVoiceSettings()" style="width:100px">
       </div>
       <div class="voice-ctrl">
-        <label>Pause entre répétitions (s) : <strong id="pauseVal">2.5</strong></label>
-        <input type="range" min="1" max="6" step="0.5" value="2.5" id="pauseSlider" oninput="document.getElementById('pauseVal').textContent=parseFloat(this.value).toFixed(1);saveVoiceSettings();" style="width:100px;">
+        <label>Pause (s) : <strong id="pauseVal">2.5</strong></label>
+        <input type="range" min="1" max="6" step=".5" value="2.5" id="pauseSlider" oninput="document.getElementById('pauseVal').textContent=parseFloat(this.value).toFixed(1);saveVoiceSettings()" style="width:100px">
       </div>
-      <button class="btn btn-primary" onclick="testVoice()" style="margin-top:0.2rem;">▶ Tester</button>
+      <button class="btn btn-primary" onclick="testVoice()">▶ Tester</button>
     </div>
   </div>
 </div>
@@ -235,7 +280,8 @@
 </nav>
 
 <main>
-  <!-- TODAY -->
+
+  <!-- ══ TODAY ══ -->
   <div id="tab-daily" class="section active">
     <div class="daily-header">
       <h1>Vos <em>5</em> du jour</h1>
@@ -245,7 +291,7 @@
       <div class="loading"><div class="spinner"></div>Chargement…</div>
     </div>
     <div class="controls">
-      <button class="btn" onclick="refreshDaily()" title="Tirer de nouveaux mots">
+      <button class="btn" onclick="refreshDaily()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-8 3.58-8 8s3.58 8 8 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
         Nouveaux mots
       </button>
@@ -253,44 +299,40 @@
         <svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
         Jouer tout (×<span id="repeatCountLabel">5</span>)
       </button>
-      <button class="btn btn-primary" onclick="showTab('quiz')">
-        Tester mes connaissances →
-      </button>
+      <button class="btn btn-primary" onclick="showTab('quiz')">Tester →</button>
     </div>
   </div>
 
-  <!-- QUIZ -->
+  <!-- ══ QUIZ ══ -->
   <div id="tab-quiz" class="section">
     <div class="quiz-container"><div id="quizContent"></div></div>
   </div>
 
-  <!-- GLOSSARY -->
+  <!-- ══ GLOSSARY ══ -->
   <div id="tab-glossary" class="section">
     <div class="glossary-header">
-      <h2>Glossaire <span style="color:var(--muted);font-size:0.88rem;font-family:'DM Sans',sans-serif;">(<span id="glossaryCount">0</span>)</span></h2>
+      <h2>Glossaire <span style="color:var(--muted);font-size:.88rem;font-family:'DM Sans',sans-serif">(<span id="glossaryCount">0</span>)</span></h2>
       <button class="btn btn-green" id="btnGlossaryRadio" onclick="toggleGlossaryRadio()">
         <svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>
         Radio
       </button>
     </div>
-    <!-- Radio info bar -->
-    <div class="glossary-radio-bar" id="glossaryRadioBar" style="display:none;">
+    <div class="glossary-radio-bar" id="glossaryRadioBar" style="display:none">
       <div class="radio-info">
         <div class="radio-word" id="radioWord">Prêt…</div>
-        <div class="radio-sub" id="radioSub">La radio va tirer des mots aléatoirement</div>
+        <div class="radio-sub" id="radioSub">La radio tire des mots aléatoirement</div>
         <div class="radio-progress-wrap"><div class="radio-progress-fill" id="radioFill" style="width:0%"></div></div>
       </div>
-      <button class="btn btn-danger stop-btn" onclick="stopGlossaryRadio()">⏹ Stop</button>
+      <button class="btn stop-btn" onclick="stopGlossaryRadio()">⏹ Stop</button>
     </div>
-
     <div class="glossary-controls">
-      <input class="search-box" type="text" id="glossarySearch" placeholder="Rechercher…" oninput="renderGlossary()" />
+      <input class="search-box" type="text" id="glossarySearch" placeholder="Rechercher…" oninput="renderGlossary()"/>
       <select class="filter-select" id="glossaryFilter" onchange="renderGlossary()">
         <option value="all">Tous</option>
         <option value="vus">Déjà vus</option>
         <option value="nouveau">Non vus</option>
         <option value="mots">Mots seuls</option>
-        <option value="phrases">Phrases/Expressions</option>
+        <option value="phrases">Phrases</option>
       </select>
       <select class="filter-select" id="glossaryCat" onchange="renderGlossary()">
         <option value="all">Toutes catégories</option>
@@ -305,14 +347,15 @@
     <div id="glossaryList" class="glossary-list"></div>
   </div>
 
-  <!-- STATS -->
+  <!-- ══ STATS ══ -->
   <div id="tab-stats" class="section">
-    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:1.1rem;">Vos progrès</h2>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:1.1rem">Vos progrès</h2>
     <div id="statsContent"></div>
   </div>
+
 </main>
 
-<!-- GLOBAL PLAY BAR -->
+<!-- PLAY BAR -->
 <div class="play-bar" id="playBar">
   <div class="play-bar-inner">
     <div class="play-bar-info">
@@ -320,421 +363,424 @@
       <div class="play-bar-sub" id="playBarSub"></div>
       <div class="play-bar-progress"><div class="play-bar-progress-fill" id="playBarFill" style="width:0%"></div></div>
     </div>
-    <button class="btn btn-danger stop-btn" onclick="stopGlobalPlay()">⏹ Stop</button>
+    <button class="btn stop-btn" onclick="stopGlobalPlay()">⏹ Stop</button>
+  </div>
+</div>
+
+<!-- WORD MODAL -->
+<div class="modal-overlay" id="wordModal" onclick="handleModalClick(event,'wordModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('wordModal')">✕</button>
+    <div id="wordModalContent"></div>
+  </div>
+</div>
+
+<!-- PRONUNCIATION MODAL -->
+<div class="modal-overlay" id="pronunciationModal" onclick="handleModalClick(event,'pronunciationModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('pronunciationModal');stopRecognition()">✕</button>
+    <div id="pronunciationContent"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ====================================================
-// CONFIG & STATE
-// ====================================================
-const STATE_KEY  = 'wordday_state_v2';
-const VOICE_KEY  = 'wordday_voice_v2';
+'use strict';
+// ══════════════════════════════════════════════
+// CONSTANTS & STATE
+// ══════════════════════════════════════════════
+const STATE_KEY   = 'wordday_v3';
+const VOICE_KEY   = 'wordday_voice_v2';
 const DAILY_COUNT = 5;
 
 let wordsData = [];
-let state = {};
-let voiceSettings = { rate:0.85, pitch:1.0, repeats:5, pause:2.5, voiceURI:'' };
-let availableVoices = [];
+let appState  = {};
+let vs = { rate:.85, pitch:1.0, repeats:5, pause:2.5, voiceURI:'' };
+let voices = [];
 
 let globalPlayActive = false;
-let globalPlayAbort  = false;
-let glossaryRadioActive = false;
-let glossaryRadioAbort  = false;
-let cardRepeatMap = {};  // id -> AbortController flag
+let globalPlayStop   = false;
+let radioActive      = false;
+let radioStop        = false;
+let cardRepeat       = {};   // id → true when running
+let recognizer       = null;
 
-// ====================================================
-// STATE PERSISTENCE
-// ====================================================
+// ══════════════════════════════════════════════
+// PERSISTENCE
+// ══════════════════════════════════════════════
 function loadState() {
-  try { state = JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch { state = {}; }
-  state.dailyWords  = state.dailyWords  || {};
-  state.occurrences = state.occurrences || {};
-  state.quizScores  = state.quizScores  || [];
-  state.streak      = state.streak      || [];
+  try { appState = JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch { appState = {}; }
+  appState.dailyWords  = appState.dailyWords  || {};
+  appState.occurrences = appState.occurrences || {};
+  appState.quizScores  = appState.quizScores  || [];
+  appState.streak      = appState.streak      || [];
 }
-function saveState() { localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+function saveState() { localStorage.setItem(STATE_KEY, JSON.stringify(appState)); }
 
-function loadVoiceSettings() {
-  try { const v = JSON.parse(localStorage.getItem(VOICE_KEY)); if(v) Object.assign(voiceSettings, v); } catch{}
-  document.getElementById('rateSlider').value   = voiceSettings.rate;
-  document.getElementById('rateVal').textContent = voiceSettings.rate.toFixed(2);
-  document.getElementById('pitchSlider').value  = voiceSettings.pitch;
-  document.getElementById('pitchVal').textContent= voiceSettings.pitch.toFixed(1);
-  document.getElementById('repeatSlider').value = voiceSettings.repeats;
-  document.getElementById('repeatVal').textContent=voiceSettings.repeats;
-  document.getElementById('pauseSlider').value  = voiceSettings.pause;
-  document.getElementById('pauseVal').textContent=voiceSettings.pause.toFixed(1);
-  document.getElementById('repeatCountLabel').textContent = voiceSettings.repeats;
+function loadVS() {
+  try { const v = JSON.parse(localStorage.getItem(VOICE_KEY)); if (v) Object.assign(vs, v); } catch {}
+  document.getElementById('rateSlider').value    = vs.rate;
+  document.getElementById('rateVal').textContent = vs.rate.toFixed(2);
+  document.getElementById('pitchSlider').value   = vs.pitch;
+  document.getElementById('pitchVal').textContent= vs.pitch.toFixed(1);
+  document.getElementById('repeatSlider').value  = vs.repeats;
+  document.getElementById('repeatVal').textContent=vs.repeats;
+  document.getElementById('pauseSlider').value   = vs.pause;
+  document.getElementById('pauseVal').textContent= vs.pause.toFixed(1);
+  document.getElementById('repeatCountLabel').textContent = vs.repeats;
 }
 function saveVoiceSettings() {
-  voiceSettings.rate    = parseFloat(document.getElementById('rateSlider').value);
-  voiceSettings.pitch   = parseFloat(document.getElementById('pitchSlider').value);
-  voiceSettings.repeats = parseInt(document.getElementById('repeatSlider').value);
-  voiceSettings.pause   = parseFloat(document.getElementById('pauseSlider').value);
+  vs.rate    = parseFloat(document.getElementById('rateSlider').value);
+  vs.pitch   = parseFloat(document.getElementById('pitchSlider').value);
+  vs.repeats = parseInt(document.getElementById('repeatSlider').value);
+  vs.pause   = parseFloat(document.getElementById('pauseSlider').value);
   const el = document.getElementById('repeatCountLabel');
-  if(el) el.textContent = voiceSettings.repeats;
-  // Update all repeat buttons labels
-  document.querySelectorAll('.card-repeat-btn:not(.active)').forEach(b => {
-    if(!b.dataset.active) b.textContent = `↺ ×${voiceSettings.repeats}`;
-  });
-  localStorage.setItem(VOICE_KEY, JSON.stringify(voiceSettings));
+  if (el) el.textContent = vs.repeats;
+  localStorage.setItem(VOICE_KEY, JSON.stringify(vs));
 }
 
-// ====================================================
-// WORD DATA
-// ====================================================
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
 async function loadWords() {
   try {
-    const res = await fetch('words.json');
-    const data = await res.json();
-    wordsData = data.words;
-    // Normalize all IDs to numbers (safety against JSON edited by hand with "id": "101")
+    const r = await fetch('words.json');
+    const d = await r.json();
+    wordsData = d.words.map(w => ({ ...w, id: parseInt(w.id, 10) }));
     wordsData.forEach(w => {
-      w.id = parseInt(w.id, 10);
-      if (state.occurrences[w.id] !== undefined) w.occurrences = state.occurrences[w.id];
+      if (appState.occurrences[w.id] !== undefined) w.occurrences = appState.occurrences[w.id];
     });
-  } catch(e) { console.error('loadWords failed', e); }
+  } catch(e) { console.error('loadWords:', e); showToast('⚠ Erreur chargement words.json'); }
 }
 
 function todayKey() {
   const d = new Date();
   return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 }
-
-function pickDailyWords(force) {
+function getTodaysWords(force) {
   const key = todayKey();
-  if (!force && state.dailyWords[key]) {
-    return wordsData.filter(w => state.dailyWords[key].includes(w.id));
+  if (!force && appState.dailyWords[key]) {
+    return wordsData.filter(w => appState.dailyWords[key].includes(w.id));
   }
   const sorted = [...wordsData].sort((a,b) => {
     if (a.occurrences !== b.occurrences) return a.occurrences - b.occurrences;
-    return Math.random() - 0.5;
+    return Math.random() - .5;
   });
   const picked = sorted.slice(0, DAILY_COUNT);
-  state.dailyWords[key] = picked.map(w => w.id);
-  picked.forEach(w => { w.occurrences++; state.occurrences[w.id] = w.occurrences; });
+  appState.dailyWords[key] = picked.map(w => w.id);
+  picked.forEach(w => { w.occurrences++; appState.occurrences[w.id] = w.occurrences; });
   const k = todayKey();
-  if (!state.streak.includes(k)) { state.streak.push(k); state.streak = state.streak.slice(-30); }
+  if (!appState.streak.includes(k)) { appState.streak.push(k); appState.streak = appState.streak.slice(-30); }
   saveState();
   return picked;
 }
-
-function getTodaysWords() { return pickDailyWords(false); }
-
 function refreshDaily() {
   if (!confirm('Tirer de nouveaux mots pour aujourd\'hui ?')) return;
-  stopGlobalPlay();
-  stopGlossaryRadio();
-  cardRepeatMap = {};
-  const key = todayKey();
-  delete state.dailyWords[key];
-  pickDailyWords(false);
+  stopAll();
+  delete appState.dailyWords[todayKey()];
+  getTodaysWords(true);
   renderDaily();
-  showToast('✦ Nouveaux mots tirés !');
+  showToast('✦ Nouveaux mots !');
 }
 
-// ====================================================
+// ══════════════════════════════════════════════
 // VOICES
-// ====================================================
+// ══════════════════════════════════════════════
 function initVoices() {
-  const populate = () => {
-    availableVoices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+  const load = () => {
+    voices = window.speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
     const sel = document.getElementById('voiceSelect');
-    if (!availableVoices.length) { sel.innerHTML = '<option>Aucune voix anglaise</option>'; return; }
-    sel.innerHTML = availableVoices.map(v =>
-      `<option value="${v.voiceURI}"${v.voiceURI===voiceSettings.voiceURI?' selected':''}>${v.name} (${v.lang})</option>`
+    if (!voices.length) { sel.innerHTML = '<option>Aucune voix EN</option>'; return; }
+    sel.innerHTML = voices.map(v =>
+      `<option value="${v.voiceURI}"${v.voiceURI===vs.voiceURI?' selected':''}>${v.name} (${v.lang})</option>`
     ).join('');
-    if (!voiceSettings.voiceURI) voiceSettings.voiceURI = availableVoices[0].voiceURI;
+    if (!vs.voiceURI) { vs.voiceURI = voices[0].voiceURI; }
   };
-  populate();
-  window.speechSynthesis.onvoiceschanged = populate;
+  load();
+  window.speechSynthesis.onvoiceschanged = load;
 }
-function getVoice() { return availableVoices.find(v=>v.voiceURI===voiceSettings.voiceURI)||availableVoices[0]||null; }
+function getENVoice() { return voices.find(v => v.voiceURI === vs.voiceURI) || voices[0] || null; }
+function getFRVoice() { return window.speechSynthesis.getVoices().find(v => v.lang.startsWith('fr')) || null; }
 function toggleVoicePanel() { document.getElementById('voicePanel').classList.toggle('open'); }
-function testVoice() {
-  window.speechSynthesis.cancel();
-  setTimeout(() => utterPromise('This is how the voice sounds. Pretty good!', 'en-US'), 50);
-}
+function testVoice() { doSpeak('This is how the voice sounds — pretty good!', 'en'); }
 
-// ====================================================
-// SPEECH PRIMITIVES
-// ====================================================
+// ══════════════════════════════════════════════
+// SPEECH — THE KEY FIX
+// All speak calls go through doSpeak(text, lang).
+// We never inline text into onclick="" — we always use data attributes + addEventListener.
+// The 80ms delay after cancel() fixes silent failure on Android Chrome.
+// ══════════════════════════════════════════════
 function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Speak one utterance, returns Promise resolving on end/error
-function utterPromise(text, lang) {
+function doSpeak(text, lang) {
+  // lang: 'en' | 'fr'
+  return new Promise(resolve => {
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate  = vs.rate;
+      u.pitch = vs.pitch;
+      if (lang === 'fr') {
+        u.lang  = 'fr-FR';
+        const fv = getFRVoice();
+        if (fv) u.voice = fv;
+      } else {
+        u.lang  = 'en-US';
+        const ev = getENVoice();
+        if (ev) u.voice = ev;
+      }
+      u.onend   = resolve;
+      u.onerror = resolve;
+      window.speechSynthesis.speak(u);
+    }, 80);
+  });
+}
+
+// speak without cancelling previous (used in sequences)
+function doSpeakNow(text, lang) {
   return new Promise(resolve => {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang  = lang || 'en-US';
-    u.rate  = voiceSettings.rate;
-    u.pitch = voiceSettings.pitch;
-    const v = getVoice();
-    if (lang && lang.startsWith('fr')) {
-      // Try to find a French voice
-      const fr = window.speechSynthesis.getVoices().find(x => x.lang.startsWith('fr'));
-      if (fr) u.voice = fr;
-    } else if (v) {
-      u.voice = v;
+    u.rate  = vs.rate;
+    u.pitch = vs.pitch;
+    if (lang === 'fr') {
+      u.lang = 'fr-FR';
+      const fv = getFRVoice();
+      if (fv) u.voice = fv;
+    } else {
+      u.lang = 'en-US';
+      const ev = getENVoice();
+      if (ev) u.voice = ev;
     }
-    u.onend = resolve; u.onerror = resolve;
+    u.onend   = resolve;
+    u.onerror = resolve;
     window.speechSynthesis.speak(u);
   });
 }
 
-// Cancel everything and speak once (for single clicks)
-// setTimeout(50ms) is critical on Android Chrome: cancel() needs one event
-// loop tick before speak() or the new utterance is silently dropped.
-function speakCancelFirst(text) {
+function stopAll() {
+  globalPlayStop = true;  globalPlayActive = false;
+  radioStop      = true;  radioActive      = false;
+  Object.keys(cardRepeat).forEach(k => { cardRepeat[k] = false; });
+  stopRecognition();
   window.speechSynthesis.cancel();
-  return new Promise(resolve => {
-    setTimeout(() => { utterPromise(text, 'en-US').then(resolve); }, 50);
-  });
+  getTodaysWords().forEach(w => { setCardPlaying(w.id, false); });
+  resetPlayAllBtn();
+  document.getElementById('playBar').classList.remove('visible');
 }
-function speak(text) { speakCancelFirst(text); }
 
-// ====================================================
-// PER-CARD REPEAT — séquence : 1×EN → 1×FR → N×EN
-// ====================================================
-async function repeatWord(wordObj) {
-  if (!wordObj) { console.error('repeatWord: mot introuvable'); showToast('⚠ Mot introuvable'); return; }
-  const id = wordObj.id;
-  // Toggle off if already running
-  if (cardRepeatMap[id]) {
-    cardRepeatMap[id] = false;
+// ══════════════════════════════════════════════
+// PER-CARD REPEAT  (1×EN → 1×FR → N×EN)
+// ══════════════════════════════════════════════
+async function repeatWord(w) {
+  if (!w) { showToast('⚠ Mot introuvable'); return; }
+  const id = w.id;
+  if (cardRepeat[id]) {
+    cardRepeat[id] = false;
     window.speechSynthesis.cancel();
     setRepeatBtn(id, false);
     setCardPlaying(id, false);
     return;
   }
-  // Stop other modes
-  stopGlobalPlay(); stopGlossaryRadio();
-  Object.keys(cardRepeatMap).forEach(k => { cardRepeatMap[k]=false; setRepeatBtn(k,false); setCardPlaying(k,false); });
-
-  cardRepeatMap[id] = true;
+  stopAll();
+  cardRepeat[id] = true;
   setRepeatBtn(id, true);
   setCardPlaying(id, true);
   window.speechSynthesis.cancel();
-  await wait(80); // Android needs a gap after cancel
+  await wait(80);
 
-  // 1× EN
-  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
-  setRepeatBtn(id, true, 0); // show "EN"
-  await utterPromise(wordObj.word, 'en-US');
-  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
-  await wait(voiceSettings.pause * 600);
+  if (!cardRepeat[id]) { cleanup(); return; }
+  await doSpeakNow(w.word, 'en');
+  if (!cardRepeat[id]) { cleanup(); return; }
+  await wait(vs.pause * 600);
 
-  // 1× FR
-  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
-  await utterPromise(wordObj.translation, 'fr-FR');
-  if (!cardRepeatMap[id]) { setRepeatBtn(id,false); setCardPlaying(id,false); return; }
-  await wait(voiceSettings.pause * 1000);
+  await doSpeakNow(w.translation, 'fr');
+  if (!cardRepeat[id]) { cleanup(); return; }
+  await wait(vs.pause * 1000);
 
-  // N× EN
-  for (let i = 0; i < voiceSettings.repeats; i++) {
-    if (!cardRepeatMap[id]) break;
+  for (let i = 0; i < vs.repeats; i++) {
+    if (!cardRepeat[id]) break;
     setRepeatBtn(id, true, i + 1);
-    await utterPromise(wordObj.word, 'en-US');
-    if (!cardRepeatMap[id]) break;
-    if (i < voiceSettings.repeats - 1) await wait(voiceSettings.pause * 1000);
+    await doSpeakNow(w.word, 'en');
+    if (!cardRepeat[id]) break;
+    if (i < vs.repeats - 1) await wait(vs.pause * 1000);
   }
+  cleanup();
 
-  cardRepeatMap[id] = false;
-  setRepeatBtn(id, false);
-  setCardPlaying(id, false);
+  function cleanup() {
+    cardRepeat[id] = false;
+    setRepeatBtn(id, false);
+    setCardPlaying(id, false);
+  }
 }
 
 function setRepeatBtn(id, active, step) {
-  const btn = document.getElementById(`rb-${id}`);
-  if (!btn) return;
-  btn.classList.toggle('active', active);
-  btn.dataset.active = active ? '1' : '';
-  btn.textContent = active && step ? `⏸ ${step}/${voiceSettings.repeats}` : active ? `⏸ ×${voiceSettings.repeats}` : `↺ ×${voiceSettings.repeats}`;
+  const b = document.getElementById('rb-' + id);
+  if (!b) return;
+  b.classList.toggle('active', active);
+  b.textContent = active && step ? `⏸ ${step}/${vs.repeats}` : active ? `⏸ ×${vs.repeats}` : `↺ ×${vs.repeats}`;
 }
 function setCardPlaying(id, on) {
-  const c = document.getElementById(`card-${id}`);
+  const c = document.getElementById('card-' + id);
   if (c) c.classList.toggle('is-playing', on);
 }
 
-// ====================================================
-// GLOBAL PLAY — séquence par mot : 1×EN → 1×FR → N×EN
-// ====================================================
+// ══════════════════════════════════════════════
+// GLOBAL PLAY  (all daily, 1×EN→1×FR→N×EN each)
+// ══════════════════════════════════════════════
 async function startGlobalPlay() {
-  if (globalPlayActive) { stopGlobalPlay(); return; }
-  stopGlossaryRadio();
-  Object.keys(cardRepeatMap).forEach(k => { cardRepeatMap[k]=false; setRepeatBtn(k,false); setCardPlaying(k,false); });
-
+  if (globalPlayActive) { stopAll(); return; }
+  stopAll();
   const words = getTodaysWords();
   if (!words.length) return;
 
-  globalPlayActive = true; globalPlayAbort = false;
+  globalPlayActive = true;
+  globalPlayStop   = false;
   const btn = document.getElementById('btnPlayAll');
   btn.className = 'btn btn-danger';
   btn.innerHTML = '⏹ Arrêter';
-  showPlayBar(true);
+  document.getElementById('playBar').classList.add('visible');
   window.speechSynthesis.cancel();
-  await wait(80); // Android needs a short gap after cancel
+  await wait(80);
 
-  // Total steps per word: 1(EN) + 1(FR) + N(EN) = N+2
-  const stepsPerWord = voiceSettings.repeats + 2;
-  const total = words.length * stepsPerWord;
+  const steps = vs.repeats + 2;
+  const total  = words.length * steps;
   let done = 0;
 
   outer: for (let wi = 0; wi < words.length; wi++) {
-    if (globalPlayAbort) break;
+    if (globalPlayStop) break;
     const w = words[wi];
     setCardPlaying(w.id, true);
 
-    // Step 1 — 1× anglais
     done++;
     setPlayBar(w.word, `Mot ${wi+1}/${words.length} — anglais`, done/total*100);
-    await utterPromise(w.word, 'en-US');
-    if (globalPlayAbort) break outer;
-    await wait(voiceSettings.pause * 600);
+    await doSpeakNow(w.word, 'en');
+    if (globalPlayStop) break outer;
+    await wait(vs.pause * 600);
 
-    // Step 2 — 1× français
     done++;
-    setPlayBar(w.word, `Mot ${wi+1}/${words.length} — traduction française`, done/total*100);
-    await utterPromise(w.translation, 'fr-FR');
-    if (globalPlayAbort) break outer;
-    await wait(voiceSettings.pause * 1000);
+    setPlayBar(w.word, `Mot ${wi+1}/${words.length} — traduction`, done/total*100);
+    await doSpeakNow(w.translation, 'fr');
+    if (globalPlayStop) break outer;
+    await wait(vs.pause * 1000);
 
-    // Steps 3…N+2 — N× anglais
-    for (let ri = 0; ri < voiceSettings.repeats; ri++) {
-      if (globalPlayAbort) break outer;
+    for (let ri = 0; ri < vs.repeats; ri++) {
+      if (globalPlayStop) break outer;
       done++;
-      setPlayBar(w.word, `Mot ${wi+1}/${words.length} — répétition ${ri+1}/${voiceSettings.repeats}`, done/total*100);
-      await utterPromise(w.word, 'en-US');
-      if (globalPlayAbort) break outer;
-      if (ri < voiceSettings.repeats - 1) await wait(voiceSettings.pause * 1000);
+      setPlayBar(w.word, `Mot ${wi+1}/${words.length} — rép. ${ri+1}/${vs.repeats}`, done/total*100);
+      await doSpeakNow(w.word, 'en');
+      if (globalPlayStop) break outer;
+      if (ri < vs.repeats - 1) await wait(vs.pause * 1000);
     }
 
     setCardPlaying(w.id, false);
-    if (wi < words.length - 1) await wait(voiceSettings.pause * 1000 * 1.5);
+    if (wi < words.length - 1) await wait(vs.pause * 1500);
   }
 
   words.forEach(w => setCardPlaying(w.id, false));
   globalPlayActive = false;
   resetPlayAllBtn();
-  showPlayBar(false);
-  if (!globalPlayAbort) showToast('✓ Lecture terminée !');
+  document.getElementById('playBar').classList.remove('visible');
+  if (!globalPlayStop) showToast('✓ Lecture terminée !');
 }
 
-function stopGlobalPlay() {
-  if (!globalPlayActive) return;
-  globalPlayAbort = true; globalPlayActive = false;
-  window.speechSynthesis.cancel();
-  getTodaysWords().forEach(w => setCardPlaying(w.id, false));
-  resetPlayAllBtn();
-  showPlayBar(false);
-}
+function stopGlobalPlay() { stopAll(); }
+
 function resetPlayAllBtn() {
-  const btn = document.getElementById('btnPlayAll');
-  if (!btn) return;
-  btn.className = 'btn btn-green';
-  btn.innerHTML = `<svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg> Jouer tout (×<span id="repeatCountLabel">${voiceSettings.repeats}</span>)`;
+  const b = document.getElementById('btnPlayAll');
+  if (!b) return;
+  b.className = 'btn btn-green';
+  b.innerHTML = `<svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg> Jouer tout (×<span id="repeatCountLabel">${vs.repeats}</span>)`;
 }
-function showPlayBar(on) { document.getElementById('playBar').classList.toggle('visible', on); }
 function setPlayBar(word, sub, pct) {
   document.getElementById('playBarWord').textContent = word;
   document.getElementById('playBarSub').textContent  = sub;
-  document.getElementById('playBarFill').style.width  = pct+'%';
+  document.getElementById('playBarFill').style.width  = pct + '%';
 }
 
-// ====================================================
+// ══════════════════════════════════════════════
 // GLOSSARY RADIO
-// ====================================================
+// ══════════════════════════════════════════════
 async function toggleGlossaryRadio() {
-  if (glossaryRadioActive) { stopGlossaryRadio(); return; }
-  stopGlobalPlay();
-  Object.keys(cardRepeatMap).forEach(k => { cardRepeatMap[k]=false; setRepeatBtn(k,false); setCardPlaying(k,false); });
-
-  glossaryRadioActive = true; glossaryRadioAbort = false;
+  if (radioActive) { stopAll(); return; }
+  stopAll();
+  radioActive = true;
+  radioStop   = false;
   const btn = document.getElementById('btnGlossaryRadio');
   btn.className = 'btn btn-danger';
   btn.innerHTML = '⏹ Stop Radio';
   document.getElementById('glossaryRadioBar').style.display = 'flex';
   window.speechSynthesis.cancel();
+  await wait(80);
 
-  // Build shuffled pool
-  const pool = [...wordsData].sort(() => Math.random()-0.5);
+  const pool = [...wordsData].sort(() => Math.random() - .5);
   let idx = 0;
 
-  while (!glossaryRadioAbort) {
-    if (idx >= pool.length) { idx = 0; pool.sort(()=>Math.random()-0.5); }
+  while (!radioStop) {
+    if (idx >= pool.length) { idx = 0; pool.sort(() => Math.random() - .5); }
     const w = pool[idx++];
 
-    // Highlight
     document.querySelectorAll('.glossary-item').forEach(el => el.classList.remove('is-playing'));
-    const el = document.getElementById(`gitem-${w.id}`);
+    const el = document.getElementById('gitem-' + w.id);
     if (el) { el.classList.add('is-playing'); el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 
-    // 1× anglais
     setRadioBar(w.word, 'Anglais ×1', 0);
-    await utterPromise(w.word, 'en-US');
-    if (glossaryRadioAbort) break;
-    await wait(600);
+    await doSpeakNow(w.word, 'en');
+    if (radioStop) break;
+    await wait(700);
 
-    // 1× français
     setRadioBar(w.word, 'Traduction française', 15);
-    await utterPromise(w.translation, 'fr-FR');
-    if (glossaryRadioAbort) break;
-    await wait(voiceSettings.pause*1000);
+    await doSpeakNow(w.translation, 'fr');
+    if (radioStop) break;
+    await wait(vs.pause * 1000);
 
-    // N× anglais
-    for (let ri = 0; ri < voiceSettings.repeats; ri++) {
-      if (glossaryRadioAbort) break;
-      setRadioBar(w.word, `Répétition ${ri+1}/${voiceSettings.repeats}`, 20+(ri+1)/voiceSettings.repeats*80);
-      await utterPromise(w.word, 'en-US');
-      if (glossaryRadioAbort) break;
-      if (ri < voiceSettings.repeats-1) await wait(voiceSettings.pause*1000);
+    for (let ri = 0; ri < vs.repeats; ri++) {
+      if (radioStop) break;
+      setRadioBar(w.word, `Rép. ${ri+1}/${vs.repeats}`, 20 + (ri+1)/vs.repeats*80);
+      await doSpeakNow(w.word, 'en');
+      if (radioStop) break;
+      if (ri < vs.repeats - 1) await wait(vs.pause * 1000);
     }
-    if (glossaryRadioAbort) break;
-    await wait(voiceSettings.pause*1000*1.3);
+    if (radioStop) break;
+    await wait(vs.pause * 1300);
   }
 
-  glossaryRadioActive = false;
-  document.getElementById('btnGlossaryRadio').className = 'btn btn-green';
-  document.getElementById('btnGlossaryRadio').innerHTML = '<svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg> Radio';
-  document.getElementById('glossaryRadioBar').style.display = 'none';
+  radioActive = false;
+  resetRadioBtn();
   document.querySelectorAll('.glossary-item').forEach(el => el.classList.remove('is-playing'));
 }
-
-function stopGlossaryRadio() {
-  if (!glossaryRadioActive) return;
-  glossaryRadioAbort = true; glossaryRadioActive = false;
-  window.speechSynthesis.cancel();
-  document.getElementById('btnGlossaryRadio').className = 'btn btn-green';
-  document.getElementById('btnGlossaryRadio').innerHTML = '<svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg> Radio';
+function stopGlossaryRadio() { stopAll(); }
+function resetRadioBtn() {
+  const b = document.getElementById('btnGlossaryRadio');
+  if (!b) return;
+  b.className = 'btn btn-green';
+  b.innerHTML = '<svg width="11" height="13" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg> Radio';
   document.getElementById('glossaryRadioBar').style.display = 'none';
-  document.querySelectorAll('.glossary-item').forEach(el => el.classList.remove('is-playing'));
 }
-
-function setRadioBar(word, sub, pct) {
-  document.getElementById('radioWord').textContent = word;
+function setRadioBar(w, sub, pct) {
+  document.getElementById('radioWord').textContent = w;
   document.getElementById('radioSub').textContent  = sub;
-  document.getElementById('radioFill').style.width  = pct+'%';
+  document.getElementById('radioFill').style.width  = pct + '%';
 }
 
-// ====================================================
+// ══════════════════════════════════════════════
 // RENDER DAILY
-// ====================================================
+// Uses data-* attributes + addEventListener to avoid ALL inline string issues
+// ══════════════════════════════════════════════
 function renderDaily() {
   const words = getTodaysWords();
-  const container = document.getElementById('cardsContainer');
   document.getElementById('wordsSeenToday').textContent =
     new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const c = document.getElementById('cardsContainer');
 
-  if (!words.length) { container.innerHTML = '<div class="empty-state">Aucun contenu disponible</div>'; return; }
-  const isPhrase = w => w.category === 'phrase' || w.category === 'expression';
+  if (!words.length) { c.innerHTML = '<div class="empty-state">Aucun contenu disponible</div>'; return; }
+  const isP = w => w.category === 'phrase' || w.category === 'expression';
 
-  container.innerHTML = words.map((w, i) => `
-    <div class="word-card${isPhrase(w)?' phrase-card':''}" id="card-${w.id}" style="animation-delay:${i*0.07}s">
+  c.innerHTML = words.map((w, i) => `
+    <div class="word-card${isP(w)?' phrase-card':''}" id="card-${w.id}" style="animation-delay:${i*.07}s">
       <div class="card-seen">vu ${w.occurrences}×</div>
-      <div class="card-type-badge"><span class="dot"></span>${isPhrase(w)?'Expression':'Mot'} ${i+1}/${DAILY_COUNT}</div>
-      <div class="card-word" onclick="speak(${JSON.stringify(w.word)})">
+      <div class="card-type-badge"><span class="dot"></span>${isP(w)?'Expression':'Mot'} ${i+1}/${DAILY_COUNT}</div>
+      <div class="card-word" data-id="${w.id}">
         <span style="flex:1">${w.word}</span>
         <div class="play-icon"><svg width="9" height="11" viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
       </div>
@@ -743,29 +789,51 @@ function renderDaily() {
       <div class="card-translation">${w.translation}</div>
       <div class="card-definition">${w.definition}</div>
       <div class="card-example"><strong>Ex.</strong> ${w.example}</div>
-      <button class="card-repeat-btn" id="rb-${w.id}" onclick="repeatWord(wordsData.find(x=>x.id==${w.id}))">↺ ×${voiceSettings.repeats}</button>
+      <div class="card-actions">
+        <button class="card-btn" id="rb-${w.id}" data-id="${w.id}">↺ ×${vs.repeats}</button>
+        <button class="card-btn blue" data-pronunc="${w.id}">🎤 Prononcer</button>
+      </div>
     </div>
   `).join('');
+
+  // Attach all events here — zero inline text
+  // We attach to both the card-word AND specifically the play-icon to avoid
+  // any child element swallowing the click before it reaches the parent listener.
+  c.querySelectorAll('.card-word[data-id]').forEach(el => {
+    const w = wordsData.find(x => x.id === parseInt(el.dataset.id));
+    if (!w) return;
+    // Make all children non-interactive so click always hits the parent
+    el.querySelectorAll('*').forEach(child => child.style.pointerEvents = 'none');
+    el.addEventListener('click', () => doSpeak(w.word, 'en'));
+  });
+  c.querySelectorAll('.card-btn[data-id]').forEach(el => {
+    const w = wordsData.find(x => x.id === parseInt(el.dataset.id));
+    if (w) el.addEventListener('click', () => repeatWord(w));
+  });
+  c.querySelectorAll('[data-pronunc]').forEach(el => {
+    const w = wordsData.find(x => x.id === parseInt(el.dataset.pronunc));
+    if (w) el.addEventListener('click', () => openPronunciation(w));
+  });
 }
 
-// ====================================================
+// ══════════════════════════════════════════════
 // QUIZ
-// ====================================================
+// ══════════════════════════════════════════════
 let quizState = {questions:[],current:0,score:0,answered:false};
 
 function buildQuiz() {
-  const todayWords = getTodaysWords();
-  const others = [...wordsData].filter(w=>!todayWords.find(t=>t.id===w.id)).sort(()=>Math.random()-0.5);
+  const today  = getTodaysWords();
+  const others = [...wordsData].filter(w => !today.find(t => t.id===w.id)).sort(() => Math.random()-.5);
   const qs = [];
-  todayWords.forEach((w,wi) => {
-    const dist = others.slice(wi*3, wi*3+3).map(d=>d.translation);
-    qs.push({word:w, options:[w.translation,...dist].sort(()=>Math.random()-0.5), answer:w.translation});
+  today.forEach((w, wi) => {
+    const d = others.slice(wi*3, wi*3+3).map(x => x.translation);
+    qs.push({ word:w, options:[w.translation,...d].sort(()=>Math.random()-.5), answer:w.translation });
   });
-  todayWords.forEach((w,wi) => {
-    const dist = others.slice(wi*3+20, wi*3+23).map(d=>d.word);
-    qs.push({word:w, options:[w.word,...dist].sort(()=>Math.random()-0.5), answer:w.word, reverse:true});
+  today.forEach((w, wi) => {
+    const d = others.slice(wi*3+20, wi*3+23).map(x => x.word);
+    qs.push({ word:w, options:[w.word,...d].sort(()=>Math.random()-.5), answer:w.word, reverse:true });
   });
-  quizState = {questions:qs.sort(()=>Math.random()-0.5), current:0, score:0, answered:false};
+  quizState = { questions:qs.sort(()=>Math.random()-.5), current:0, score:0, answered:false };
   renderQuiz();
 }
 
@@ -778,13 +846,14 @@ function renderQuiz() {
       <div class="score">${score}/${questions.length}</div>
       <p>${pct>=75?'🎉 Excellent !':pct>=50?'👏 Pas mal !':'💪 Continuez !'}</p>
       <p>${pct}% de réussite</p>
-      <div style="display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+      <div style="display:flex;gap:.65rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem">
         <button class="btn btn-primary" onclick="buildQuiz()">Recommencer</button>
         <button class="btn" onclick="showTab('daily')">Revoir les mots</button>
       </div></div>`;
-    state.quizScores.push({date:todayKey(),score,total:questions.length});
-    state.quizScores = state.quizScores.slice(-50);
-    saveState(); return;
+    appState.quizScores.push({date:todayKey(),score,total:questions.length});
+    appState.quizScores = appState.quizScores.slice(-50);
+    saveState();
+    return;
   }
   const q = questions[current];
   const prog = current/questions.length*100;
@@ -792,141 +861,341 @@ function renderQuiz() {
     <div class="quiz-header">
       <h2>${q.reverse?'Mot anglais ?':'Traduction ?'}</h2>
       <div class="quiz-progress"><div class="quiz-progress-fill" style="width:${prog}%"></div></div>
-      <div style="font-size:0.72rem;color:var(--muted)">${current+1} / ${questions.length}</div>
+      <div style="font-size:.72rem;color:var(--muted)">${current+1} / ${questions.length}</div>
     </div>
     <div class="quiz-question">
       <div class="quiz-prompt">${q.reverse?'Français':'Anglais'}</div>
-      <div class="quiz-word" onclick="speak(${JSON.stringify(q.word.word)})">${q.reverse?q.word.translation:q.word.word}</div>
+      <div class="quiz-word" id="quizWordBtn">${q.reverse?q.word.translation:q.word.word}</div>
       ${!q.reverse?`<div class="quiz-phonetic">${q.word.phonetic}</div>`:''}
     </div>
-    <div class="quiz-options">
-      ${q.options.map(opt=>`<button class="quiz-option" onclick="answerQuiz(${JSON.stringify(opt)},this)">${opt}</button>`).join('')}
+    <div class="quiz-options" id="quizOptions">
+      ${q.options.map((opt,i) => `<button class="quiz-option" data-opt="${i}">${opt}</button>`).join('')}
     </div>`;
+
+  // Quiz word speak button
+  document.getElementById('quizWordBtn').addEventListener('click', () => doSpeak(q.word.word, 'en'));
+
+  // Quiz option buttons — use data-opt index to avoid string comparison issues
+  document.querySelectorAll('.quiz-option').forEach((btn, i) => {
+    btn.addEventListener('click', () => answerQuiz(q.options[i], btn, q));
+  });
 }
 
-function answerQuiz(answer, btn) {
+function answerQuiz(answer, btn, q) {
   if (quizState.answered) return;
   quizState.answered = true;
-  const q = quizState.questions[quizState.current];
-  document.querySelectorAll('.quiz-option').forEach(b=>b.classList.add('disabled'));
-  if (answer === q.answer) { btn.classList.add('correct'); quizState.score++; showToast('✓ Bonne réponse !'); }
-  else {
+  document.querySelectorAll('.quiz-option').forEach(b => b.classList.add('disabled'));
+  if (answer === q.answer) {
+    btn.classList.add('correct'); quizState.score++; showToast('✓ Bonne réponse !');
+  } else {
     btn.classList.add('wrong');
-    document.querySelectorAll('.quiz-option').forEach(b=>{ if(b.textContent.trim()===q.answer) b.classList.add('correct'); });
+    document.querySelectorAll('.quiz-option').forEach(b => { if (b.textContent.trim()===q.answer) b.classList.add('correct'); });
     showToast('✗ ' + q.answer);
   }
-  setTimeout(()=>{ quizState.current++; quizState.answered=false; renderQuiz(); }, 1400);
+  setTimeout(() => { quizState.current++; quizState.answered=false; renderQuiz(); }, 1400);
 }
 
-// ====================================================
+// ══════════════════════════════════════════════
 // GLOSSARY
-// ====================================================
+// ══════════════════════════════════════════════
 function renderGlossary() {
   const search = document.getElementById('glossarySearch').value.toLowerCase();
   const filter = document.getElementById('glossaryFilter').value;
   const cat    = document.getElementById('glossaryCat').value;
-  const isPhrase = w => w.category==='phrase'||w.category==='expression';
+  const isP    = w => w.category==='phrase'||w.category==='expression';
 
   let list = wordsData.filter(w => {
     const ms = !search || w.word.toLowerCase().includes(search) || w.translation.toLowerCase().includes(search);
-    const mf = filter==='all'?true:filter==='vus'?w.occurrences>0:filter==='nouveau'?w.occurrences===0:filter==='mots'?!isPhrase(w):filter==='phrases'?isPhrase(w):true;
-    const mc = cat==='all'||w.category===cat;
-    return ms&&mf&&mc;
+    const mf = filter==='all'?true:filter==='vus'?w.occurrences>0:filter==='nouveau'?w.occurrences===0:filter==='mots'?!isP(w):filter==='phrases'?isP(w):true;
+    return ms && mf && (cat==='all'||w.category===cat);
   });
-  list.sort((a,b)=>a.word.localeCompare(b.word));
+  list.sort((a,b) => a.word.localeCompare(b.word));
   document.getElementById('glossaryCount').textContent = list.length;
+
   const el = document.getElementById('glossaryList');
   if (!list.length) { el.innerHTML='<div class="empty-state"><p>Aucun résultat</p></div>'; return; }
+
   el.innerHTML = list.map((w,i) => `
-    <div class="glossary-item" id="gitem-${w.id}" style="animation-delay:${Math.min(i,25)*0.014}s">
-      <div class="glossary-word${isPhrase(w)?' phrase':''}" onclick="speak(${JSON.stringify(w.word)})">
+    <div class="glossary-item" id="gitem-${w.id}" data-id="${w.id}" style="animation-delay:${Math.min(i,25)*.014}s">
+      <div class="glossary-word-col${isP(w)?' phrase':''}" data-speak="${w.id}">
         <span style="overflow:hidden;text-overflow:ellipsis;min-width:0">${w.word}</span>
         <div class="mini-play"><svg width="7" height="9" viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z"/></svg></div>
       </div>
       <div class="glossary-phonetic">${w.phonetic}</div>
       <div class="glossary-translation">${w.translation}</div>
       <span class="glossary-badge">${w.category}</span>
-      <div class="occurrences-dot${w.occurrences>0?' seen':''}" title="${w.occurrences}×"></div>
+      <div class="occ-dot${w.occurrences>0?' seen':''}" title="${w.occurrences}×"></div>
     </div>`).join('');
+
+  // Event delegation — speak icon stops propagation, row click opens modal
+  el.querySelectorAll('[data-speak]').forEach(sp => {
+    // Disable pointer events on children so click always lands on sp itself
+    sp.querySelectorAll('*').forEach(child => child.style.pointerEvents = 'none');
+    const w = wordsData.find(x => x.id === parseInt(sp.dataset.speak));
+    if (w) sp.addEventListener('click', e => {
+      e.stopPropagation();
+      e.preventDefault();
+      doSpeak(w.word, 'en');
+    });
+  });
+  el.querySelectorAll('[data-id]').forEach(row => {
+    const w = wordsData.find(x => x.id === parseInt(row.dataset.id));
+    if (w) row.addEventListener('click', () => openWordModal(w));
+  });
 }
 
-// ====================================================
-// STATS
-// ====================================================
-function renderStats() {
-  const totalSeen = Object.values(state.occurrences).filter(v=>v>0).length;
-  const totalWords = wordsData.length;
-  const streakCount = state.streak.length;
-  const avgScore = state.quizScores.length
-    ? Math.round(state.quizScores.reduce((a,s)=>a+s.score/s.total*100,0)/state.quizScores.length) : 0;
-  const today = new Date();
-  const days = Array.from({length:14},(_,i)=>{
-    const d=new Date(today); d.setDate(d.getDate()-(13-i));
-    const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-    return {k,done:state.streak.includes(k),label:d.toLocaleDateString('fr-FR',{weekday:'short'}).slice(0,2),day:d.getDate()};
+// ══════════════════════════════════════════════
+// WORD DETAIL MODAL
+// ══════════════════════════════════════════════
+function openWordModal(w) {
+  const isP = w.category==='phrase'||w.category==='expression';
+  document.getElementById('wordModalContent').innerHTML = `
+    <div class="modal-word" id="mwSpeak">
+      <span>${w.word}</span>
+      <div class="play-icon" style="${isP?'background:var(--accent2)':''}">
+        <svg width="9" height="11" viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z" fill="#0f1117"/></svg>
+      </div>
+    </div>
+    <div class="modal-phonetic">${w.phonetic}</div>
+    <span style="display:inline-block;font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:#0f1117;background:var(--muted);border-radius:20px;padding:.15rem .5rem;margin-bottom:.9rem">${w.category}</span>
+    <div class="modal-section"><div class="modal-label">Traduction</div><div class="modal-value" style="font-size:1.1rem;font-weight:500">${w.translation}</div></div>
+    <div class="modal-section"><div class="modal-label">Définition</div><div class="modal-value">${w.definition}</div></div>
+    <div class="modal-section"><div class="modal-label">Exemple</div><div class="modal-example">${w.example}</div></div>
+    <div style="display:flex;gap:.65rem;margin-top:1.25rem;flex-wrap:wrap">
+      <button class="btn btn-primary" id="mwRepeat">↺ Répéter ×${vs.repeats}</button>
+      <button class="btn btn-blue" id="mwPronunc">🎤 Prononcer</button>
+    </div>`;
+
+  document.getElementById('mwSpeak').addEventListener('click', () => doSpeak(w.word, 'en'));
+  document.getElementById('mwRepeat').addEventListener('click', () => { closeModal('wordModal'); repeatWord(w); });
+  document.getElementById('mwPronunc').addEventListener('click', () => { closeModal('wordModal'); openPronunciation(w); });
+
+  openModal('wordModal');
+}
+
+// ══════════════════════════════════════════════
+// PRONUNCIATION
+// ══════════════════════════════════════════════
+let pronunciationWord = null;
+
+function openPronunciation(w) {
+  pronunciationWord = w;
+  renderPronunc('idle');
+  openModal('pronunciationModal');
+}
+
+function renderPronunc(state, result) {
+  const w  = pronunciationWord;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  let body = '';
+  if (!SR) {
+    body = `<div style="color:var(--danger);text-align:center;padding:1rem;font-size:.85rem">
+      ⚠ Reconnaissance vocale non supportée.<br><small style="color:var(--muted)">Requiert Chrome sur Android ou desktop.</small>
+    </div>`;
+  } else if (state === 'idle') {
+    body = `
+      <p style="color:var(--muted);font-size:.82rem;text-align:center;margin-bottom:.75rem">Écoutez le mot, puis prononcez-le :</p>
+      <div style="text-align:center"><button class="btn" id="pListen">▶ Écouter le mot</button></div>
+      <div class="mic-btn" id="micBtn">🎤</div>
+      <p style="color:var(--muted);font-size:.75rem;text-align:center">Appuyez sur le micro pour commencer</p>`;
+  } else if (state === 'listening') {
+    body = `
+      <p style="color:var(--accent2);font-size:.85rem;text-align:center;margin-bottom:.5rem">🎙 En écoute… dites le mot !</p>
+      <div class="mic-btn listening" id="micBtn">🔴</div>
+      <p style="color:var(--muted);font-size:.75rem;text-align:center">Appuyez pour arrêter</p>`;
+  } else if (state === 'result' && result) {
+    const cls = result.score>=80?'score-great':result.score>=50?'score-ok':'score-poor';
+    const msg = result.score>=80?'🎉 Excellent !':result.score>=50?'👍 Pas mal !':'😅 À retravailler';
+    body = `
+      <div style="text-align:center;margin-bottom:1rem">
+        <div class="pronunc-score ${cls}">${result.score}<span style="font-size:1.5rem">%</span></div>
+        <div style="color:var(--muted);font-size:.9rem">${msg}</div>
+      </div>
+      <div class="result-heard"><div class="rl">Vous avez dit</div><div class="rv">${result.heard||'(rien détecté)'}</div></div>
+      <div class="result-heard"><div class="rl">Analyse phonétique</div><div class="rv" style="font-size:1.05rem;letter-spacing:.04em">${result.phoneticHtml}</div></div>
+      <div style="display:flex;gap:.65rem;flex-wrap:wrap;margin-top:1rem">
+        <button class="btn btn-primary" id="pRetry">↺ Réessayer</button>
+        <button class="btn" id="pListen2">▶ Réécouter</button>
+      </div>`;
+  }
+
+  document.getElementById('pronunciationContent').innerHTML = `
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.35rem">Prononciation</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--accent);margin-bottom:.2rem">${w.word}</div>
+      <div style="font-size:.88rem;color:var(--accent2);font-style:italic">${w.phonetic}</div>
+    </div>
+    ${body}`;
+
+  // Attach events after render
+  const listenBtn = document.getElementById('pListen') || document.getElementById('pListen2');
+  if (listenBtn) listenBtn.addEventListener('click', () => doSpeak(w.word, 'en'));
+
+  const micBtn = document.getElementById('micBtn');
+  if (micBtn) micBtn.addEventListener('click', () => { state==='listening' ? stopRecognition() : startRecognition(w); });
+
+  const retryBtn = document.getElementById('pRetry');
+  if (retryBtn) retryBtn.addEventListener('click', () => renderPronunc('idle'));
+}
+
+function startRecognition(w) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  renderPronunc('listening');
+  recognizer = new SR();
+  recognizer.lang = 'en-US';
+  recognizer.interimResults  = false;
+  recognizer.maxAlternatives = 5;
+
+  recognizer.onresult = e => {
+    const alts = Array.from(e.results[0]).map(a => a.transcript.trim().toLowerCase());
+    renderPronunc('result', scorePronunciation(w, alts));
+    recognizer = null;
+  };
+  recognizer.onerror = e => {
+    recognizer = null;
+    if (e.error === 'no-speech') {
+      renderPronunc('result', { score:0, heard:'(rien détecté)', phoneticHtml: colorPhonetic(w.phonetic, 0) });
+    } else {
+      renderPronunc('idle');
+      showToast('⚠ Micro : ' + e.error);
+    }
+  };
+  recognizer.onend = () => { recognizer = null; };
+  recognizer.start();
+}
+function stopRecognition() {
+  if (recognizer) { try { recognizer.stop(); } catch(e){} recognizer = null; }
+}
+
+function scorePronunciation(w, alts) {
+  const target = w.word.toLowerCase().replace(/[^a-z\s]/g,'');
+  let best = 0, bestText = alts[0]||'';
+  alts.forEach(alt => {
+    const s = similarity(target, alt.replace(/[^a-z\s]/g,''));
+    if (s > best) { best = s; bestText = alt; }
   });
+  return { score: Math.round(best*100), heard: bestText, phoneticHtml: colorPhonetic(w.phonetic, best) };
+}
+
+function similarity(a, b) {
+  if (!a||!b) return 0;
+  const norm = s => s.replace(/ph/g,'f').replace(/ck/g,'k').replace(/tion/g,'shun').replace(/ght/g,'t').replace(/kn/g,'n').replace(/wr/g,'r');
+  a = norm(a); b = norm(b);
+  if (a===b) return 1;
+  const aw = a.split(/\s+/), bw = b.split(/\s+/);
+  if (aw.length > 1) {
+    const m = aw.filter(t => bw.some(h => lev(t,h) > .75));
+    return m.length / aw.length;
+  }
+  return lev(a, b);
+}
+
+function lev(a, b) {
+  if (!a||!b) return 0; if (a===b) return 1;
+  const m=a.length, n=b.length;
+  const dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i===0?j:j===0?i:0));
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return 1-dp[m][n]/Math.max(m,n);
+}
+
+function colorPhonetic(phonetic, score) {
+  const inner = phonetic.replace(/^\/|\/$/g,'');
+  if (score >= .85) return `<span class="ph-good">${inner}</span>`;
+  if (score >= .55) {
+    const cut = Math.floor(inner.length * score);
+    return `<span class="ph-good">${inner.slice(0,cut)}</span><span class="ph-ok">${inner.slice(cut)}</span>`;
+  }
+  if (score >= .25) {
+    const cut = Math.floor(inner.length * score * .6);
+    return `<span class="ph-good">${inner.slice(0,cut)}</span><span class="ph-bad">${inner.slice(cut)}</span>`;
+  }
+  return `<span class="ph-bad">${inner}</span>`;
+}
+
+// ══════════════════════════════════════════════
+// MODAL HELPERS
+// ══════════════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleModalClick(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+// ══════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════
+function renderStats() {
+  const seen  = Object.values(appState.occurrences).filter(v=>v>0).length;
+  const total = wordsData.length;
+  const avg   = appState.quizScores.length ? Math.round(appState.quizScores.reduce((a,s)=>a+s.score/s.total*100,0)/appState.quizScores.length) : 0;
+  const today = new Date();
+  const days  = Array.from({length:14},(_,i)=>{ const d=new Date(today); d.setDate(d.getDate()-(13-i)); const k=`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; return{k,done:appState.streak.includes(k),lbl:d.toLocaleDateString('fr-FR',{weekday:'short'}).slice(0,2),day:d.getDate()}; });
+
   document.getElementById('statsContent').innerHTML = `
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-number">${totalSeen}</div><div class="stat-label">Vus</div></div>
-      <div class="stat-card" style="animation-delay:.05s"><div class="stat-number">${streakCount}</div><div class="stat-label">Jours actifs</div></div>
-      <div class="stat-card" style="animation-delay:.1s"><div class="stat-number">${avgScore}%</div><div class="stat-label">Quiz moy.</div></div>
+      <div class="stat-card"><div class="stat-number">${seen}</div><div class="stat-label">Vus</div></div>
+      <div class="stat-card" style="animation-delay:.05s"><div class="stat-number">${appState.streak.length}</div><div class="stat-label">Jours actifs</div></div>
+      <div class="stat-card" style="animation-delay:.1s"><div class="stat-number">${avg}%</div><div class="stat-label">Quiz moy.</div></div>
     </div>
     <div class="streak-bar">
-      <h3>📅 Activité — 14 derniers jours</h3>
-      <div class="streak-days">${days.map(d=>`<div class="streak-day${d.done?' done':''}"><span>${d.label}</span><span>${d.day}</span></div>`).join('')}</div>
+      <h3>📅 14 derniers jours</h3>
+      <div class="streak-days">${days.map(d=>`<div class="streak-day${d.done?' done':''}"><span>${d.lbl}</span><span>${d.day}</span></div>`).join('')}</div>
     </div>
     <div class="streak-bar">
       <h3>📊 Progression</h3>
-      <div style="display:flex;align-items:center;gap:0.65rem;margin-bottom:0.35rem;">
-        <div style="flex:1;height:6px;background:var(--surface2);border-radius:4px;overflow:hidden;"><div style="width:${Math.round(totalSeen/totalWords*100)}%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;"></div></div>
-        <span style="font-size:0.75rem;color:var(--muted)">${totalSeen}/${totalWords}</span>
+      <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:.35rem">
+        <div style="flex:1;height:6px;background:var(--surface2);border-radius:4px;overflow:hidden"><div style="width:${Math.round(seen/total*100)}%;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px"></div></div>
+        <span style="font-size:.75rem;color:var(--muted)">${seen}/${total}</span>
       </div>
-      <p style="font-size:0.75rem;color:var(--muted)">${Math.round(totalSeen/totalWords*100)}% du vocabulaire exploré</p>
+      <p style="font-size:.75rem;color:var(--muted)">${Math.round(seen/total*100)}% du vocabulaire</p>
     </div>
-    ${state.quizScores.length?`<div class="streak-bar"><h3>🏆 Derniers scores quiz</h3>
-      ${state.quizScores.slice(-5).reverse().map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--border);"><span style="font-size:0.72rem;color:var(--muted)">${s.date}</span><span style="color:var(--accent);font-family:'Playfair Display',serif">${s.score}/${s.total}</span></div>`).join('')}
-    </div>`:''}`;
+    ${appState.quizScores.length?`<div class="streak-bar"><h3>🏆 Scores quiz</h3>${appState.quizScores.slice(-5).reverse().map(s=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--border)"><span style="font-size:.72rem;color:var(--muted)">${s.date}</span><span style="color:var(--accent);font-family:'Playfair Display',serif">${s.score}/${s.total}</span></div>`).join('')}</div>`:``}`;
 }
 
-// ====================================================
-// TABS / TOAST / DATE
-// ====================================================
+// ══════════════════════════════════════════════
+// TABS / TOAST / MISC
+// ══════════════════════════════════════════════
 function showTab(name) {
   ['daily','quiz','glossary','stats'].forEach((n,i) => {
     document.querySelectorAll('.tab')[i].classList.toggle('active', n===name);
   });
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  if(name==='quiz') buildQuiz();
-  if(name==='glossary') renderGlossary();
-  if(name==='stats') renderStats();
+  if (name==='quiz') buildQuiz();
+  if (name==='glossary') renderGlossary();
+  if (name==='stats') renderStats();
 }
 
-let toastTimer;
+let _toastTimer;
 function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-function updateHeaderDate() {
-  document.getElementById('headerDate').textContent =
-    new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
-}
-
-// ====================================================
-// SERVICE WORKER & INIT
-// ====================================================
 if ('serviceWorker' in navigator)
-  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
-(async function init() {
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+(async () => {
   loadState();
   await loadWords();
-  loadVoiceSettings();
+  loadVS();
   initVoices();
-  updateHeaderDate();
+  document.getElementById('headerDate').textContent =
+    new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
   renderDaily();
 })();
 </script>
