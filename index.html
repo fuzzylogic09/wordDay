@@ -1005,8 +1005,12 @@ function renderPronunc(state, result) {
       <div class="mic-btn listening" id="micBtn">🔴</div>
       <p style="color:var(--muted);font-size:.75rem;text-align:center">Appuyez pour arrêter</p>`;
   } else if (state === 'result' && result) {
-    const cls = result.score>=80?'score-great':result.score>=50?'score-ok':'score-poor';
-    const msg = result.score>=80?'🎉 Excellent !':result.score>=50?'👍 Pas mal !':'😅 À retravailler';
+    // Stricter label thresholds: 90/70 instead of 80/50
+    const cls = result.score>=90?'score-great':result.score>=70?'score-ok':'score-poor';
+    const msg = result.score>=90?'🎉 Excellent !'
+               :result.score>=70?'👍 Pas mal, continue !'
+               :result.score>=50?'😐 Peut mieux faire'
+               :'😅 À retravailler';
     body = `
       <div style="text-align:center;margin-bottom:1rem">
         <div class="pronunc-score ${cls}">${result.score}<span style="font-size:1.5rem">%</span></div>
@@ -1014,6 +1018,19 @@ function renderPronunc(state, result) {
       </div>
       <div class="result-heard"><div class="rl">Vous avez dit</div><div class="rv">${result.heard||'(rien détecté)'}</div></div>
       <div class="result-heard"><div class="rl">Analyse phonétique</div><div class="rv" style="font-size:1.05rem;letter-spacing:.04em">${result.phoneticHtml}</div></div>
+      <div class="result-heard" style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+        <div>
+          <div class="rl">Confiance reconnaissance</div>
+          <div class="rv" style="font-size:.95rem">${result.confidence}</div>
+        </div>
+        <div>
+          <div class="rl">Similarité textuelle</div>
+          <div class="rv" style="font-size:.95rem">${result.rawSim}%</div>
+        </div>
+      </div>
+      <p style="font-size:.7rem;color:var(--muted);margin-top:.5rem;line-height:1.4">
+        Score = √(similarité × confiance) avec une courbe de rigueur et une pénalité si la reconnaissance hésite.
+      </p>
       <div style="display:flex;gap:.65rem;flex-wrap:wrap;margin-top:1rem">
         <button class="btn btn-primary" id="pRetry">↺ Réessayer</button>
         <button class="btn" id="pListen2">▶ Réécouter</button>
@@ -1049,7 +1066,11 @@ function startRecognition(w) {
   recognizer.maxAlternatives = 5;
 
   recognizer.onresult = e => {
-    const alts = Array.from(e.results[0]).map(a => a.transcript.trim().toLowerCase());
+    // Collect both transcript AND confidence for each alternative
+    const alts = Array.from(e.results[0]).map(a => ({
+      text: a.transcript.trim().toLowerCase(),
+      confidence: a.confidence  // 0–1, may be 0 on some browsers
+    }));
     renderPronunc('result', scorePronunciation(w, alts));
     recognizer = null;
   };
@@ -1070,13 +1091,55 @@ function stopRecognition() {
 }
 
 function scorePronunciation(w, alts) {
-  const target = w.word.toLowerCase().replace(/[^a-z\s]/g,'');
-  let best = 0, bestText = alts[0]||'';
+  const target = w.word.toLowerCase().replace(/[^a-z\s]/g, '');
+
+  // Step 1 — find the best alternative by text similarity alone
+  let bestSim = 0, bestAlt = alts[0] || { text:'', confidence:0 };
   alts.forEach(alt => {
-    const s = similarity(target, alt.replace(/[^a-z\s]/g,''));
-    if (s > best) { best = s; bestText = alt; }
+    const s = similarity(target, alt.text.replace(/[^a-z\s]/g, ''));
+    if (s > bestSim) { bestSim = s; bestAlt = alt; }
   });
-  return { score: Math.round(best*100), heard: bestText, phoneticHtml: colorPhonetic(w.phonetic, best) };
+
+  // Step 2 — integrate confidence
+  // Some browsers (Firefox, Safari) always return confidence=0. In that case
+  // we fall back to text similarity only but apply a flat 0.85 penalty to
+  // account for the fact we can't verify the recognition certainty.
+  const conf = bestAlt.confidence > 0 ? bestAlt.confidence : null;
+  const confPenalty = conf !== null ? conf : 0.85;
+
+  // Step 3 — combined score: geometric mean of similarity and confidence
+  // This is harsher than a simple product for mid-range values:
+  //   sim=0.9, conf=0.9  → 0.9   (both good, score high)
+  //   sim=0.9, conf=0.5  → 0.67  (good text but shaky recognition → doubt)
+  //   sim=0.7, conf=0.9  → 0.79  (confident but text differs → not great)
+  //   sim=0.5, conf=0.5  → 0.5   (both mediocre → poor)
+  const combined = Math.sqrt(bestSim * confPenalty);
+
+  // Step 4 — strictness curve: apply a power >1 to compress high scores
+  // and expand low scores, making "good" harder to reach.
+  // raw^1.35 : score of 0.9 → 0.86, score of 0.7 → 0.63, score of 0.5 → 0.41
+  const curved = Math.pow(combined, 1.35);
+
+  // Step 5 — penalty for number of alternatives proposed
+  // If the recogniser hesitates and produces 4-5 alternatives, it was unsure.
+  // Each extra alternative beyond 1 shaves off a small amount.
+  const altPenalty = 1 - (alts.length - 1) * 0.03;  // max −12% for 5 alts
+  const final = Math.max(0, Math.min(1, curved * altPenalty));
+
+  const score = Math.round(final * 100);
+
+  // Build detail string to show the user
+  const confDisplay = conf !== null
+    ? Math.round(conf * 100) + '%'
+    : 'n/a (navigateur)';
+
+  return {
+    score,
+    heard: bestAlt.text || '(rien détecté)',
+    confidence: confDisplay,
+    rawSim: Math.round(bestSim * 100),
+    phoneticHtml: colorPhonetic(w.phonetic, final)
+  };
 }
 
 function similarity(a, b) {
@@ -1102,14 +1165,17 @@ function lev(a, b) {
 }
 
 function colorPhonetic(phonetic, score) {
-  const inner = phonetic.replace(/^\/|\/$/g,'');
-  if (score >= .85) return `<span class="ph-good">${inner}</span>`;
-  if (score >= .55) {
-    const cut = Math.floor(inner.length * score);
+  // Stricter thresholds: "good" now requires ≥0.82 instead of 0.85
+  // but the coloring bands are tighter so mid-range looks more orange/red.
+  const inner = phonetic.replace(/^\/|\/$/g, '');
+  if (score >= 0.82) return `<span class="ph-good">${inner}</span>`;
+  if (score >= 0.60) {
+    // Partial good — proportional cut but capped at 70% green max
+    const cut = Math.floor(inner.length * Math.min(score, 0.70));
     return `<span class="ph-good">${inner.slice(0,cut)}</span><span class="ph-ok">${inner.slice(cut)}</span>`;
   }
-  if (score >= .25) {
-    const cut = Math.floor(inner.length * score * .6);
+  if (score >= 0.35) {
+    const cut = Math.floor(inner.length * score * 0.45);
     return `<span class="ph-good">${inner.slice(0,cut)}</span><span class="ph-bad">${inner.slice(cut)}</span>`;
   }
   return `<span class="ph-bad">${inner}</span>`;
